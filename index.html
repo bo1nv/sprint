@@ -146,7 +146,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 8 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 9 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -173,10 +173,12 @@ const WEEKS=[
 ];
 
 const KEY="sprint-blog-v2";
-let st={done:{},rest:{},custom:{},edit:{}};
+let st={done:{},rest:{},custom:{},edit:{},min:{}};
 try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));}catch(e){}
 if(!st.custom)st.custom={};
 if(!st.edit)st.edit={};
+if(!st.min)st.min={};
+function dayMin(day){return st.min[day.d]||day.min;}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
 
 const pad=n=>String(n).padStart(2,"0");
@@ -228,7 +230,7 @@ function render(){
       if(adding){
         html+='<form class="add" data-form="'+day.d+'"><label for="at'+fx+'" class="sr">Своя задача</label><input id="at'+fx+'" class="ein" type="text" placeholder="Что сделать" enterkeyhint="done"><label for="am'+fx+'" class="sr">Минуты</label><input id="am'+fx+'" class="ein num" type="number" inputmode="numeric" min="1" placeholder="мин"><button class="lnk strong" type="submit">Ок</button></form>';
       }
-      html+='<p class="min"><b>Минимум:</b> '+day.min+'</p>';
+      html+=editing?'<p class="min erow"><label for="mn'+fx+'"><b>Минимум:</b></label><input class="ein" id="mn'+fx+'" data-emin="'+day.d+'" value="'+esc(dayMin(day))+'"></p>':'<p class="min"><b>Минимум:</b> '+esc(dayMin(day))+'</p>';
     }else{
       html+='<p class="min">'+day.min+'</p>';
     }
@@ -311,6 +313,7 @@ document.getElementById("days").addEventListener("submit",e=>{
 });
 document.getElementById("days").addEventListener("input",e=>{
   const ds=e.target.dataset;
+  if(ds.emin){const v=e.target.value.trim();if(v)st.min[ds.emin]=v;else delete st.min[ds.emin];save();return;}
   if(ds.et||ds.em){
     const id=ds.et||ds.em;
     const day=ALL.find(d=>dayTasks(d).some(t=>t[0]===id));
@@ -329,7 +332,7 @@ document.getElementById("bkCopy").onclick=async()=>{
 document.getElementById("bkLoad").onclick=()=>{
   try{const v=JSON.parse(document.getElementById("bkIn").value);
     if(!v||typeof v.done!=="object")throw 0;
-    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{}};save();render();toast("Отметки восстановлены");}
+    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},min:v.min||{}};save();render();toast("Отметки восстановлены");}
   catch(e){toast("Текст бэкапа не распознан. Скопируй его целиком.");}
 };
 document.getElementById("report").onclick=async()=>{
