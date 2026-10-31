@@ -19,6 +19,7 @@
   --bg:#F4F5F8; --surface:#FFFFFF; --ink:#14171C; --muted:#5E6573; --line:#E2E5EB;
   --accent:#1A6AE0; --accent-soft:#E3F1FE; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
   --c-orange:#C2410C; --c-orange-bg:#FFEDE3; --c-blue:#1A6AE0; --c-blue-bg:#E3F1FE; --c-green:#2F7D52; --c-green-bg:#E3F4EA; --c-violet:#6D3FD1; --c-violet-bg:#EFE8FD; --c-pink:#C0266D; --c-pink-bg:#FDE7F1;
+  --done-bg:#E9EBEF; --done-line:#DCDFE5;
   --gym:#C2410C; --gym-soft:#FFEDE3; --rest:#3F7D5C; --rest-soft:#E3F2EA; --warn:#B45309; --warn-soft:#FFF4DB;
   --display:"Unbounded", "Arial Black", sans-serif; --body:"Manrope", system-ui, -apple-system, sans-serif;
   color-scheme:light;
@@ -28,6 +29,7 @@
     --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
     --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
     --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
+    --done-bg:#121418; --done-line:#24272E;
     --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
     color-scheme:dark;
   }
@@ -36,6 +38,7 @@
   --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
   --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
   --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
+  --done-bg:#121418; --done-line:#24272E;
   --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
   color-scheme:dark;
 }
@@ -76,6 +79,7 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .day{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
 .day.today{border:2px solid var(--accent)}
 .day.isrest{opacity:.85}
+.day.alldone{background:var(--done-bg);border-color:var(--done-line)}
 .dhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dname{font-family:var(--display);font-weight:500;font-size:15px}
 .pill{font-size:12px;font-weight:700;padding:3px 8px;border-radius:99px}
@@ -170,7 +174,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 16 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 17 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -256,7 +260,7 @@ function render(){
     const mins=list.reduce((a,t)=>a+(t[3]?0:t[2]),0);
     const past=day.d<TODAY, fx=day.d.replace(/-/g,""), editing=ui.edit===day.d, adding=ui.add===day.d;
     const el=document.createElement("article");
-    el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"");
+    el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"")+(!rest&&total&&dc===total?" alldone":"");
     let pills="";
     if(day.d===TODAY)pills+='<span class="pill ev">Сегодня</span>';
     if(!editing)dayTags(day).forEach(t=>{if(t.text)pills+='<span class="pill tc-'+t.color+'">'+esc(t.text)+'</span>';});
