@@ -18,6 +18,7 @@
   /* layout: one column, sticky summary, day cards as a vertical timeline */
   --bg:#F4F5F8; --surface:#FFFFFF; --ink:#14171C; --muted:#5E6573; --line:#E2E5EB;
   --accent:#1A6AE0; --accent-soft:#E3F1FE; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
+  --c-orange:#C2410C; --c-orange-bg:#FFEDE3; --c-blue:#1A6AE0; --c-blue-bg:#E3F1FE; --c-green:#2F7D52; --c-green-bg:#E3F4EA; --c-violet:#6D3FD1; --c-violet-bg:#EFE8FD; --c-pink:#C0266D; --c-pink-bg:#FDE7F1;
   --gym:#C2410C; --gym-soft:#FFEDE3; --rest:#3F7D5C; --rest-soft:#E3F2EA; --warn:#B45309; --warn-soft:#FFF4DB;
   --display:"Unbounded", "Arial Black", sans-serif; --body:"Manrope", system-ui, -apple-system, sans-serif;
   color-scheme:light;
@@ -26,6 +27,7 @@
   :root:not([data-theme="light"]){
     --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
     --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
+    --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
     --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
     color-scheme:dark;
   }
@@ -33,6 +35,7 @@
 :root[data-theme="dark"]{
   --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
   --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
+  --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
   --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
   color-scheme:dark;
 }
@@ -60,6 +63,11 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .tabs button[aria-selected="true"]{background:var(--grad);color:#fff}
 .focus{font-size:14px;color:var(--muted);margin:0}
 .focus b{color:var(--ink)}
+.goals{display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.glabel{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.goal{font-size:13px;font-weight:600;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:4px 10px}
+.gedit{display:flex;align-items:flex-end;gap:8px;flex:1;min-width:220px}
+.gedit textarea{flex:1;font:16px var(--body);border:0;border-bottom:1px solid var(--accent);background:transparent;color:var(--ink);padding:4px 0;resize:none;outline:none}
 .frow{display:flex;align-items:center;gap:6px}
 .focus .ein{flex:1;min-width:160px}
 .pen{border:0;background:transparent;color:var(--muted);padding:2px 4px;cursor:pointer;display:inline-flex;vertical-align:-2px;opacity:.7}
@@ -76,7 +84,18 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .pill.ev{background:var(--accent-soft);color:var(--accent)}
 .pill.done{background:var(--rest-soft);color:var(--rest)}
 .pill.miss{background:var(--warn-soft);color:var(--warn)}
-.dtime{margin-left:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tc-orange{background:var(--c-orange-bg);color:var(--c-orange)}
+.tc-blue{background:var(--c-blue-bg);color:var(--c-blue)}
+.tc-green{background:var(--c-green-bg);color:var(--c-green)}
+.tc-violet{background:var(--c-violet-bg);color:var(--c-violet)}
+.tc-pink{background:var(--c-pink-bg);color:var(--c-pink)}
+.tagedit{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.trow{display:flex;align-items:center;gap:8px;width:100%}
+.dots{display:flex;gap:6px}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid transparent;padding:0;cursor:pointer}
+.dot.tc-orange{background:var(--c-orange)}.dot.tc-blue{background:var(--c-blue)}.dot.tc-green{background:var(--c-green)}.dot.tc-violet{background:var(--c-violet)}.dot.tc-pink{background:var(--c-pink)}
+.dot.on{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--ink)}
+.dtime{margin-left:auto;align-self:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .tasks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
 .tasks input[type=checkbox]{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
@@ -95,7 +114,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .del{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:0 2px;cursor:pointer;width:20px}
 .delgap{width:20px;flex:none}
-.links{display:flex;gap:16px;flex-wrap:wrap}
+.links{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .lnk{font:600 13px var(--body);border:0;background:transparent;color:var(--muted);padding:2px 0;cursor:pointer}
 .lnk:hover{color:var(--ink)}
 .lnk.strong{color:var(--accent)}
@@ -111,6 +130,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
     <h1>Спринт: недели 1–2</h1>
     <p class="sub">1–14 ноября · ФК — «Формула контента», ФМ — «Формула миллиона»</p>
   </header>
+  <section class="goals" id="goals" aria-label="Цели"></section>
 
   <section class="summary" aria-label="Прогресс">
     <div class="stats">
@@ -150,7 +170,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 11 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 15 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -177,12 +197,22 @@ const WEEKS=[
 ];
 
 const KEY="sprint-blog-v2";
-let st={done:{},rest:{},custom:{},edit:{},min:{},focus:{}};
+let st={done:{},rest:{},custom:{},edit:{},min:{},focus:{},goals:null};
 try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));}catch(e){}
 if(!st.custom)st.custom={};
 if(!st.edit)st.edit={};
 if(!st.min)st.min={};
 if(!st.focus)st.focus={};
+if(!st.tags)st.tags={};
+if(!st.hidden)st.hidden={};
+const TCOL=["orange","blue","green","violet","pink"];
+function dayTags(day){
+  if(Array.isArray(st.tags[day.d]))return st.tags[day.d];
+  const t=[];if(day.gym)t.push({text:"Зал",color:"orange"});if(day.ev)t.push({text:day.ev,color:"blue"});return t;
+}
+function ownTags(d){const day=ALL.find(x=>x.d===d);if(!Array.isArray(st.tags[d]))st.tags[d]=dayTags(day).map(x=>({text:x.text,color:x.color}));return st.tags[d];}
+const GOALS_DEFAULT=["Купить MacBook","Переехать в Таиланд"];
+function goals(){return Array.isArray(st.goals)?st.goals:GOALS_DEFAULT;}
 function dayMin(day){return st.min[day.d]||day.min;}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
 
@@ -193,7 +223,7 @@ const ALL=WEEKS.flatMap(w=>w.days);
 
 function isRest(day){return day.d in st.rest ? st.rest[day.d] : !!day.rest;}
 function esc(x){return String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-function dayTasks(day){return day.tasks.map(t=>{const o=st.edit[t[0]];return o?[t[0],o.text||t[1],o.min||t[2],t[3]]:t;}).concat((st.custom[day.d]||[]).map(c=>[c.id,c.text,c.min,0,1]));}
+function dayTasks(day){return day.tasks.filter(t=>!st.hidden[t[0]]).map(t=>{const o=st.edit[t[0]];return o?[t[0],o.text||t[1],o.min||t[2],t[3]]:t;}).concat((st.custom[day.d]||[]).map(c=>[c.id,c.text,c.min,0,1]));}
 function doneCount(day){return dayTasks(day).filter(t=>st.done[t[0]]).length;}
 function counted(day){return isRest(day)||dayTasks(day).some(t=>!t[3]&&st.done[t[0]]);}
 
@@ -201,10 +231,19 @@ let week=0;
 const wi=WEEKS.findIndex(w=>w.days.some(d=>d.d===TODAY));
 if(wi>=0)week=wi;
 
-const ui={add:null,edit:null,focus:false};
+const ui={add:null,edit:null,focus:false,goals:false};
 const PEN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 function fmt(m){return m>=60?(Math.round(m/6)/10).toString().replace(".",",")+" ч":m+" мин";}
+function renderGoals(){
+  const g=document.getElementById("goals");
+  if(ui.goals){
+    g.innerHTML='<span class="glabel">Цели</span><div class="gedit"><label for="gin" class="sr">Цели, по одной в строке</label><textarea id="gin" rows="'+Math.max(2,goals().length)+'" placeholder="Одна цель в строке">'+esc(goals().join("\n"))+'</textarea><button class="lnk strong" id="gdone">Готово</button></div>';
+  }else{
+    g.innerHTML='<span class="glabel">Цели</span>'+goals().map(x=>'<span class="goal">'+esc(x)+'</span>').join("")+'<button class="pen" id="gedit" aria-label="Изменить цели">'+PEN+'</button>';
+  }
+}
 function render(){
+  renderGoals();
   document.getElementById("tab1").setAttribute("aria-selected",week===0);
   document.getElementById("tab2").setAttribute("aria-selected",week===1);
   const fv=st.focus[week]||WEEKS[week].focus;
@@ -220,19 +259,21 @@ function render(){
     el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"");
     let pills="";
     if(day.d===TODAY)pills+='<span class="pill ev">Сегодня</span>';
-    if(day.gym)pills+='<span class="pill gym">Зал</span>';
-    if(day.ev)pills+='<span class="pill ev">'+day.ev+'</span>';
+    if(!editing)dayTags(day).forEach(t=>{if(t.text)pills+='<span class="pill tc-'+t.color+'">'+esc(t.text)+'</span>';});
     if(rest)pills+='<span class="pill rest">Отдых</span>';
     else if(total&&dc===total)pills+='<span class="pill done">Всё сделано</span>';
     else if(dc>0)pills+='<span class="pill done">Засчитан</span>';
     else if(past)pills+='<span class="pill miss">Пропуск</span>';
-    const time=rest?"":"~"+fmt(mins)+(day.gym?" + зал":"");
-    let html='<div class="dhead"><span class="dname">'+day.n+'</span>'+pills+'<span class="dtime">'+time+'</span></div>';
+    const time=rest?"":"~"+fmt(mins);
+    let html='<div class="dhead"><span class="dname">'+day.n+'</span>'+pills+'</div>';
+    if(editing){
+      html+='<div class="tagedit">'+dayTags(day).map((t,i)=>'<div class="trow"><label for="tg'+fx+i+'" class="sr">Тег</label><input class="ein" id="tg'+fx+i+'" data-tg="'+day.d+'|'+i+'" value="'+esc(t.text)+'" placeholder="Тег"><span class="dots">'+TCOL.map(c=>'<button class="dot tc-'+c+(t.color===c?' on':'')+'" data-tc="'+day.d+'|'+i+'|'+c+'" aria-label="Цвет '+c+'"></button>').join("")+'</span><button class="del" data-tdel="'+day.d+'|'+i+'" aria-label="Удалить тег">×</button></div>').join("")+'<button class="lnk" data-tadd="'+day.d+'">+ Тег</button></div>';
+    }
     if(!rest){
       html+='<ul class="tasks">'+list.map(t=>{
         const id=t[0], cid="c"+id;
         if(editing){
-          return '<li class="erow"><label for="e'+id+'" class="sr">Название</label><input class="ein" id="e'+id+'" data-et="'+id+'" value="'+esc(t[1])+'"><label for="m'+id+'" class="sr">Минуты</label><input class="ein num" id="m'+id+'" data-em="'+id+'" type="number" inputmode="numeric" min="1" value="'+t[2]+'">'+(t[4]?'<button class="del" data-del="'+day.d+'|'+id+'" aria-label="Удалить задачу">×</button>':'<span class="delgap"></span>')+'</li>';
+          return '<li class="erow"><label for="e'+id+'" class="sr">Название</label><input class="ein" id="e'+id+'" data-et="'+id+'" value="'+esc(t[1])+'"><label for="m'+id+'" class="sr">Минуты</label><input class="ein num" id="m'+id+'" data-em="'+id+'" type="number" inputmode="numeric" min="1" value="'+t[2]+'">'+'<button class="del" data-del="'+day.d+'|'+id+'" aria-label="Удалить задачу">×</button>'+'</li>';
         }
         return '<li><label for="'+cid+'"><input type="checkbox" id="'+cid+'" data-k="'+id+'"'+(st.done[id]?" checked":"")+'><span class="t">'+esc(t[1])+'</span><span class="m">'+t[2]+' мин</span></label></li>';
       }).join("")+'</ul>';
@@ -253,7 +294,7 @@ function render(){
       }
     }
     if(!editing)html+='<button class="lnk" data-rest="'+day.d+'">'+(rest?"Рабочий день":"Отдых")+'</button>';
-    html+='</div>';
+    html+='<span class="dtime">'+time+'</span></div>';
     el.innerHTML=html;box.appendChild(el);
     if(adding){const f=document.getElementById("at"+fx);if(f)f.focus();}
   });
@@ -308,7 +349,10 @@ document.getElementById("days").addEventListener("click",async e=>{
   if(ds.addopen){ui.add=ui.add===ds.addopen?null:ds.addopen;ui.edit=null;render();}
   if(ds.editopen){ui.edit=ds.editopen;ui.add=null;render();}
   if(ds.doneEdit){ui.edit=null;render();}
-  if(ds.del){const [d,id]=ds.del.split("|");st.custom[d]=(st.custom[d]||[]).filter(c=>c.id!==id);delete st.done[id];save();render();}
+  if(ds.tc){const [d,i,c]=ds.tc.split("|");ownTags(d)[+i].color=c;save();render();return;}
+  if(ds.tdel){const [d,i]=ds.tdel.split("|");ownTags(d).splice(+i,1);save();render();return;}
+  if(ds.tadd){const L=ownTags(ds.tadd);L.push({text:"",color:"blue"});save();render();const f=document.getElementById("tg"+ds.tadd.replace(/-/g,"")+(L.length-1));if(f)f.focus();return;}
+  if(ds.del){const [d,id]=ds.del.split("|");const own=(st.custom[d]||[]).some(c=>c.id===id);if(own)st.custom[d]=st.custom[d].filter(c=>c.id!==id);else st.hidden[id]=1;delete st.done[id];save();render();}
   if(ds.rest){const day=ALL.find(d=>d.d===ds.rest);st.rest[ds.rest]=!isRest(day);save();render();}
 });
 document.getElementById("days").addEventListener("submit",e=>{
@@ -322,6 +366,7 @@ document.getElementById("days").addEventListener("submit",e=>{
 });
 document.getElementById("days").addEventListener("input",e=>{
   const ds=e.target.dataset;
+  if(ds.tg){const [d,i]=ds.tg.split("|");ownTags(d)[+i].text=e.target.value.trim();save();return;}
   if(ds.emin){const v=e.target.value.trim();if(v)st.min[ds.emin]=v;else delete st.min[ds.emin];save();return;}
   if(ds.et||ds.em){
     const id=ds.et||ds.em;
@@ -330,6 +375,13 @@ document.getElementById("days").addEventListener("input",e=>{
     if(ds.et){const v=e.target.value.trim();if(!v)return; if(own)own.text=v; else (st.edit[id]=st.edit[id]||{}).text=v;}
     if(ds.em){const v=parseInt(e.target.value,10);if(!v)return; if(own)own.min=v; else (st.edit[id]=st.edit[id]||{}).min=v;}
     save();
+  }
+});
+document.getElementById("goals").addEventListener("click",e=>{
+  if(e.target.closest("#gedit")){ui.goals=true;renderGoals();document.getElementById("gin").focus();}
+  if(e.target.closest("#gdone")){
+    const v=document.getElementById("gin").value.split("\n").map(x=>x.trim()).filter(Boolean);
+    st.goals=v;save();ui.goals=false;renderGoals();
   }
 });
 document.getElementById("focus").addEventListener("click",e=>{
@@ -349,7 +401,7 @@ document.getElementById("bkCopy").onclick=async()=>{
 document.getElementById("bkLoad").onclick=()=>{
   try{const v=JSON.parse(document.getElementById("bkIn").value);
     if(!v||typeof v.done!=="object")throw 0;
-    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},min:v.min||{},focus:v.focus||{}};save();render();toast("Отметки восстановлены");}
+    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},min:v.min||{},focus:v.focus||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
   catch(e){toast("Текст бэкапа не распознан. Скопируй его целиком.");}
 };
 document.getElementById("report").onclick=async()=>{
