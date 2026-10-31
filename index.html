@@ -102,6 +102,19 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .dtime{margin-left:auto;align-self:center;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
 .tasks label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px}
+.trow3{display:flex;align-items:flex-start;gap:4px}
+.trow3 label{flex:1}
+.trow3 .m{margin-left:0;padding-top:1px}
+.stog{display:inline-flex;align-items:center;gap:3px;border:0;background:transparent;color:var(--muted);font:600 12px var(--body);padding:3px 4px 0 6px;cursor:pointer;font-variant-numeric:tabular-nums}
+.stog svg{transition:transform .15s}
+.stog.open svg{transform:rotate(180deg)}
+.subs{list-style:none;margin:4px 0 2px 30px;padding:0 0 0 10px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:4px}
+.subs label{font-size:14px;color:var(--muted)}
+.subs input[type=checkbox]{width:17px;height:17px}
+.subedit{margin:2px 0 4px 30px;display:flex;flex-direction:column;gap:2px;align-items:flex-start}
+.srow{display:flex;gap:8px;align-items:center;width:100%}
+.ein.sm{font-size:16px;color:var(--muted);padding:4px 0}
+.lnk.sadd{font-size:12px;font-weight:600;padding:2px 0}
 .tasks input[type=checkbox]{width:20px;height:20px;margin:1px 0 0;accent-color:var(--accent);flex:none}
 .tasks .m{color:var(--muted);font-size:13px;white-space:nowrap;margin-left:auto;padding-left:8px;font-variant-numeric:tabular-nums}
 .tasks input[type=checkbox]:checked + .t{text-decoration:line-through;color:var(--muted)}
@@ -115,6 +128,9 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
 .ein:focus{outline:none;border-bottom-color:var(--accent)}
 .ein.num{flex:none;width:48px;text-align:right;color:var(--muted)}
 .erow{display:flex;gap:8px;align-items:center}
+.grip{color:var(--muted);touch-action:none;cursor:grab;padding:6px 4px;margin-left:-4px;display:inline-flex;flex:none}
+li.dragging{background:var(--accent-soft);border-radius:8px}
+.tasks label{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .del{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:0 2px;cursor:pointer;width:20px}
 .delgap{width:20px;flex:none}
@@ -174,7 +190,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 17 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 21 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -209,6 +225,10 @@ if(!st.min)st.min={};
 if(!st.focus)st.focus={};
 if(!st.tags)st.tags={};
 if(!st.hidden)st.hidden={};
+if(!st.order)st.order={};
+if(!st.subs)st.subs={};
+function subsOf(id){return st.subs[id]||[];}
+function newId(p){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 const TCOL=["orange","blue","green","violet","pink"];
 function dayTags(day){
   if(Array.isArray(st.tags[day.d]))return st.tags[day.d];
@@ -227,7 +247,13 @@ const ALL=WEEKS.flatMap(w=>w.days);
 
 function isRest(day){return day.d in st.rest ? st.rest[day.d] : !!day.rest;}
 function esc(x){return String(x).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
-function dayTasks(day){return day.tasks.filter(t=>!st.hidden[t[0]]).map(t=>{const o=st.edit[t[0]];return o?[t[0],o.text||t[1],o.min||t[2],t[3]]:t;}).concat((st.custom[day.d]||[]).map(c=>[c.id,c.text,c.min,0,1]));}
+function baseTasks(day){return day.tasks.filter(t=>!st.hidden[t[0]]).map(t=>{const o=st.edit[t[0]];return o?[t[0],o.text||t[1],o.min||t[2],t[3]]:t;}).concat((st.custom[day.d]||[]).map(c=>[c.id,c.text,c.min,0,1]));}
+function dayTasks(day){
+  const L=baseTasks(day), o=st.order[day.d];
+  if(!Array.isArray(o))return L;
+  const pos=id=>{const i=o.indexOf(id);return i<0?1e6:i;};
+  return L.map((t,k)=>[t,k]).sort((a,b)=>(pos(a[0][0])-pos(b[0][0]))||(a[1]-b[1])).map(x=>x[0]);
+}
 function doneCount(day){return dayTasks(day).filter(t=>st.done[t[0]]).length;}
 function counted(day){return isRest(day)||dayTasks(day).some(t=>!t[3]&&st.done[t[0]]);}
 
@@ -235,7 +261,8 @@ let week=0;
 const wi=WEEKS.findIndex(w=>w.days.some(d=>d.d===TODAY));
 if(wi>=0)week=wi;
 
-const ui={add:null,edit:null,focus:false,goals:false};
+const ui={add:null,edit:null,focus:false,goals:false,open:{}};
+const GRIP='<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor"><circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="9" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="9" cy="13" r="1.5"/></g></svg>';
 const PEN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 function fmt(m){return m>=60?(Math.round(m/6)/10).toString().replace(".",",")+" ч":m+" мин";}
 function renderGoals(){
@@ -259,7 +286,7 @@ function render(){
     const rest=isRest(day), dc=doneCount(day), list=dayTasks(day), total=list.length;
     const mins=list.reduce((a,t)=>a+(t[3]?0:t[2]),0);
     const past=day.d<TODAY, fx=day.d.replace(/-/g,""), editing=ui.edit===day.d, adding=ui.add===day.d;
-    const el=document.createElement("article");
+    const el=document.createElement("article");el.dataset.day=day.d;
     el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"")+(!rest&&total&&dc===total?" alldone":"");
     let pills="";
     if(day.d===TODAY)pills+='<span class="pill ev">Сегодня</span>';
@@ -277,9 +304,17 @@ function render(){
       html+='<ul class="tasks">'+list.map(t=>{
         const id=t[0], cid="c"+id;
         if(editing){
-          return '<li class="erow"><label for="e'+id+'" class="sr">Название</label><input class="ein" id="e'+id+'" data-et="'+id+'" value="'+esc(t[1])+'"><label for="m'+id+'" class="sr">Минуты</label><input class="ein num" id="m'+id+'" data-em="'+id+'" type="number" inputmode="numeric" min="1" value="'+t[2]+'">'+'<button class="del" data-del="'+day.d+'|'+id+'" aria-label="Удалить задачу">×</button>'+'</li>';
+          return '<li data-id="'+id+'"><div class="erow"><span class="grip" aria-label="Перетащить">'+GRIP+'</span><label for="e'+id+'" class="sr">Название</label><input class="ein" id="e'+id+'" data-et="'+id+'" value="'+esc(t[1])+'"><label for="m'+id+'" class="sr">Минуты</label><input class="ein num" id="m'+id+'" data-em="'+id+'" type="number" inputmode="numeric" min="1" value="'+t[2]+'">'+'<button class="del" data-del="'+day.d+'|'+id+'" aria-label="Удалить задачу">×</button></div>'
+            +'<div class="subedit">'+subsOf(id).map(sb=>'<div class="srow"><label for="si'+sb.id+'" class="sr">Подзадача</label><input class="ein sm" id="si'+sb.id+'" data-st="'+id+'|'+sb.id+'" value="'+esc(sb.text)+'" placeholder="Подзадача"><button class="del" data-sdel="'+id+'|'+sb.id+'" aria-label="Удалить подзадачу">×</button></div>').join("")
+            +'<button class="lnk sadd" data-sadd="'+id+'">+ подзадача</button></div></li>';
         }
-        return '<li><label for="'+cid+'"><input type="checkbox" id="'+cid+'" data-k="'+id+'"'+(st.done[id]?" checked":"")+'><span class="t">'+esc(t[1])+'</span><span class="m">'+t[2]+' мин</span></label></li>';
+        const sb=subsOf(id).filter(x=>x.text), open=ui.open[id];
+        const sd=sb.filter(x=>st.done[x.id]).length;
+        let h='<li><div class="trow3"><label for="'+cid+'"><input type="checkbox" id="'+cid+'" data-k="'+id+'"'+(st.done[id]?" checked":"")+'><span class="t">'+esc(t[1])+'</span></label>';
+        if(sb.length)h+='<button class="stog'+(open?' open':'')+'" data-tog="'+id+'" aria-expanded="'+(open?'true':'false')+'" aria-label="Подзадачи"><span>'+sd+'/'+sb.length+'</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+        h+='<span class="m">'+t[2]+' мин</span></div>';
+        if(sb.length&&open)h+='<ul class="subs">'+sb.map(x=>'<li><label for="cs'+x.id+'"><input type="checkbox" id="cs'+x.id+'" data-sk="'+x.id+'" data-parent="'+id+'"'+(st.done[x.id]?" checked":"")+'><span class="t">'+esc(x.text)+'</span></label></li>').join("")+'</ul>';
+        return h+'</li>';
       }).join("")+'</ul>';
       if(adding){
         html+='<form class="add" data-form="'+day.d+'"><label for="at'+fx+'" class="sr">Своя задача</label><input id="at'+fx+'" class="ein" type="text" placeholder="Что сделать" enterkeyhint="done"><label for="am'+fx+'" class="sr">Минуты</label><input id="am'+fx+'" class="ein num" type="number" inputmode="numeric" min="1" placeholder="мин"><button class="lnk strong" type="submit">Ок</button></form>';
@@ -338,27 +373,62 @@ function stats(){
 function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800);}
 
 document.getElementById("days").addEventListener("change",e=>{
-  const k=e.target.dataset.k;if(!k)return;
-  if(e.target.checked)st.done[k]=1;else delete st.done[k];
-  save();render();
+  const k=e.target.dataset.k, sk=e.target.dataset.sk;
+  if(k){
+    if(e.target.checked)st.done[k]=1;else delete st.done[k];
+    subsOf(k).forEach(x=>{if(e.target.checked)st.done[x.id]=1;else delete st.done[x.id];});
+    save();render();
+  }
+  if(sk){
+    if(e.target.checked)st.done[sk]=1;else delete st.done[sk];
+    const p=e.target.dataset.parent, L=subsOf(p).filter(x=>x.text);
+    if(L.length&&L.every(x=>st.done[x.id]))st.done[p]=1;else delete st.done[p];
+    save();render();
+  }
 });
 document.getElementById("days").addEventListener("click",async e=>{
   const ds=e.target.dataset||{};
   if(ds.copy){
     const day=ALL.find(d=>d.d===ds.copy);
-    const L=dayTasks(day);const text=L.map(t=>t[1]+" ("+t[2]+" мин)").join("\n");
+    const L=dayTasks(day);const text=L.map(t=>t[1]).join("\n");
     try{await navigator.clipboard.writeText(text);toast("Скопировано задач: "+L.length);}
     catch(err){toast("Не получилось скопировать");}
   }
   if(ds.addopen){ui.add=ui.add===ds.addopen?null:ds.addopen;ui.edit=null;render();}
   if(ds.editopen){ui.edit=ds.editopen;ui.add=null;render();}
-  if(ds.doneEdit){ui.edit=null;render();}
+  if(ds.doneEdit){Object.keys(st.subs).forEach(k=>{st.subs[k]=st.subs[k].filter(x=>x.text);if(!st.subs[k].length)delete st.subs[k];});save();ui.edit=null;render();}
+  if(ds.tog){ui.open[ds.tog]=!ui.open[ds.tog];render();}
+  if(ds.sadd){const nid=newId("s");(st.subs[ds.sadd]=st.subs[ds.sadd]||[]).push({id:nid,text:""});ui.open[ds.sadd]=true;save();render();const f=document.getElementById("si"+nid);if(f)f.focus();}
+  if(ds.sdel){const [p,sid]=ds.sdel.split("|");st.subs[p]=subsOf(p).filter(x=>x.id!==sid);delete st.done[sid];save();render();}
   if(ds.tc){const [d,i,c]=ds.tc.split("|");ownTags(d)[+i].color=c;save();render();return;}
   if(ds.tdel){const [d,i]=ds.tdel.split("|");ownTags(d).splice(+i,1);save();render();return;}
   if(ds.tadd){const L=ownTags(ds.tadd);L.push({text:"",color:"blue"});save();render();const f=document.getElementById("tg"+ds.tadd.replace(/-/g,"")+(L.length-1));if(f)f.focus();return;}
-  if(ds.del){const [d,id]=ds.del.split("|");const own=(st.custom[d]||[]).some(c=>c.id===id);if(own)st.custom[d]=st.custom[d].filter(c=>c.id!==id);else st.hidden[id]=1;delete st.done[id];save();render();}
+  if(ds.del){const [d,id]=ds.del.split("|");const own=(st.custom[d]||[]).some(c=>c.id===id);if(own)st.custom[d]=st.custom[d].filter(c=>c.id!==id);else st.hidden[id]=1;delete st.done[id];subsOf(id).forEach(x=>delete st.done[x.id]);delete st.subs[id];save();render();}
   if(ds.rest){const day=ALL.find(d=>d.d===ds.rest);st.rest[ds.rest]=!isRest(day);save();render();}
 });
+let drag=null;
+document.getElementById("days").addEventListener("pointerdown",e=>{
+  const g=e.target.closest(".grip");if(!g)return;
+  const li=g.closest("li");e.preventDefault();
+  drag={li:li,ul:li.parentNode,id:e.pointerId};li.classList.add("dragging");
+  try{g.setPointerCapture(e.pointerId);}catch(_){}
+});
+document.getElementById("days").addEventListener("pointermove",e=>{
+  if(!drag||e.pointerId!==drag.id)return;e.preventDefault();
+  const y=e.clientY, li=drag.li;
+  const prev=li.previousElementSibling, next=li.nextElementSibling;
+  if(prev){const r=prev.getBoundingClientRect();if(y<r.top+r.height/2){drag.ul.insertBefore(li,prev);return;}}
+  if(next){const r=next.getBoundingClientRect();if(y>r.top+r.height/2){drag.ul.insertBefore(next,li);}}
+});
+function endDrag(e){
+  if(!drag||(e&&e.pointerId!==drag.id))return;
+  const ul=drag.ul;drag.li.classList.remove("dragging");
+  const d=ul.closest("article").dataset.day;
+  st.order[d]=[...ul.querySelectorAll("li[data-id]")].map(x=>x.dataset.id);
+  drag=null;save();
+}
+document.getElementById("days").addEventListener("pointerup",endDrag);
+document.getElementById("days").addEventListener("pointercancel",endDrag);
 document.getElementById("days").addEventListener("submit",e=>{
   e.preventDefault();
   const a=e.target.dataset.form;if(!a)return;
@@ -371,6 +441,7 @@ document.getElementById("days").addEventListener("submit",e=>{
 document.getElementById("days").addEventListener("input",e=>{
   const ds=e.target.dataset;
   if(ds.tg){const [d,i]=ds.tg.split("|");ownTags(d)[+i].text=e.target.value.trim();save();return;}
+  if(ds.st){const [p,sid]=ds.st.split("|");const x=subsOf(p).find(y=>y.id===sid);if(x){x.text=e.target.value.trim();save();}return;}
   if(ds.emin){const v=e.target.value.trim();if(v)st.min[ds.emin]=v;else delete st.min[ds.emin];save();return;}
   if(ds.et||ds.em){
     const id=ds.et||ds.em;
@@ -405,7 +476,7 @@ document.getElementById("bkCopy").onclick=async()=>{
 document.getElementById("bkLoad").onclick=()=>{
   try{const v=JSON.parse(document.getElementById("bkIn").value);
     if(!v||typeof v.done!=="object")throw 0;
-    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},min:v.min||{},focus:v.focus||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
+    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},order:v.order||{},subs:v.subs||{},min:v.min||{},focus:v.focus||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
   catch(e){toast("Текст бэкапа не распознан. Скопируй его целиком.");}
 };
 document.getElementById("report").onclick=async()=>{
@@ -413,7 +484,7 @@ document.getElementById("report").onclick=async()=>{
   ALL.forEach(d=>{
     const L=dayTasks(d);if(!L.length&&!isRest(d))return;
     lines.push("\n"+d.n+(isRest(d)?" — отдых":""));
-    if(!isRest(d))L.forEach(t=>lines.push((st.done[t[0]]?"[x] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":"")));
+    if(!isRest(d))L.forEach(t=>{lines.push((st.done[t[0]]?"[x] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":""));subsOf(t[0]).filter(x=>x.text).forEach(x=>lines.push("    "+(st.done[x.id]?"[x] ":"[ ] ")+x.text));});
   });
   const text=lines.join("\n");
   try{await navigator.clipboard.writeText(text);toast("Отчёт скопирован, вставь его в чат с Claude");}
