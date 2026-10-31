@@ -141,7 +141,8 @@ button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid
 .ein.num{flex:none;width:48px;text-align:right;color:var(--muted)}
 .erow{display:flex;gap:8px;align-items:center}
 .grip{color:var(--muted);touch-action:none;cursor:grab;padding:6px 4px;margin-left:-4px;display:inline-flex;flex:none}
-li.dragging{background:var(--accent-soft);border-radius:8px}
+li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
+.sgrip{padding:4px 2px;margin-left:-18px}
 .tasks label{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .del{border:0;background:transparent;color:var(--muted);font-size:18px;line-height:1;padding:0 2px;cursor:pointer;width:20px}
@@ -202,14 +203,14 @@ li.dragging{background:var(--accent-soft);border-radius:8px}
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 25 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 27 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
 const WEEKS=[
  {focus:"Ниша выбрана, профиль переоформлен",days:[
-  {d:"2026-11-01",n:"Вс 1 ноября",tasks:[["1101a","Обзор недели",15],["1101b","ФК 1 «Как стать богатым через блог»",25],["1101c","ФК 2 «Стратегия блога»: выписать 3 варианта ниши",80],["1101d","ФМ 6 «Родители и деньги» + задание",50]],min:"Посмотреть первые 2 минуты ФК 2"},
+  {d:"2026-11-01",n:"Вс 1 ноября",tasks:[["1101a","Обзор и Планирование недели",15],["1101e","Задание 5 урока из ФМ 5",40],["1101b","ФК 1 «Как стать богатым через блог»",25],["1101c","ФК 2 «Стратегия блога»",80],["1101d","ФМ 6 «Родители и деньги»",50]],min:"Посмотреть первые 2 минуты ФК 2"},
   {d:"2026-11-02",n:"Пн 2 ноября",gym:1,ev:"Собеседование 13:30",tasks:[["1102a","ФМ 7 «Метафора денег» + задание",40],["1102b","Подготовка к собеседованию",60]],min:"Только подготовка к собеседованию"},
   {d:"2026-11-03",n:"Вт 3 ноября",tasks:[["1103a","ФК 2: разобрать 3 варианта с Claude и выбрать нишу",120],["1103b","ФМ 8 «Вредные убеждения» + задание",50]],min:"Записать 3 варианта ниши в заметки"},
   {d:"2026-11-04",n:"Ср 4 ноября",gym:1,tasks:[["1104a","ФМ 9 «Перепрошивка вредных убеждений» + задание",50],["1104b","ФК 3 «Упаковка блога»: посмотреть",30]],min:"Включить ФК 3 на 2 минуты"},
@@ -240,6 +241,10 @@ if(!st.tags)st.tags={};
 if(!st.hidden)st.hidden={};
 if(!st.order)st.order={};
 if(!st.subs)st.subs={};
+const DEF_SUBS={"1101c":[{id:"1101c1",text:"Транскрибация"},{id:"1101c2",text:"Выполнить задание"}],"1101d":[{id:"1101d1",text:"Транскрибация"},{id:"1101d2",text:"Выполнить задание"}]};
+Object.keys(DEF_SUBS).forEach(k=>{if(!(k in st.subs))st.subs[k]=DEF_SUBS[k].map(x=>({id:x.id,text:x.text}));});
+// если «Задание 5 урока» уже добавлено как своя задача — не дублируем
+if(!("1101e" in st.hidden)&&(st.custom["2026-11-01"]||[]).some(c=>/Задание 5 урока/i.test(c.text)))st.hidden["1101e"]=1;
 function subsOf(id){return st.subs[id]||[];}
 function newId(p){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 const TCOL=["orange","blue","green","violet","pink"];
@@ -325,7 +330,7 @@ function render(){
         const id=t[0], cid="c"+id;
         if(editing){
           return '<li data-id="'+id+'"><div class="erow"><span class="grip" aria-label="Перетащить">'+GRIP+'</span><label for="e'+id+'" class="sr">Название</label><input class="ein" id="e'+id+'" data-et="'+id+'" value="'+esc(t[1])+'"><label for="m'+id+'" class="sr">Минуты</label><input class="ein num" id="m'+id+'" data-em="'+id+'" type="number" inputmode="numeric" min="1" value="'+t[2]+'">'+'<button class="del" data-del="'+day.d+'|'+id+'" aria-label="Удалить задачу">×</button></div>'
-            +'<div class="subedit">'+subsOf(id).map(sb=>'<div class="srow"><label for="si'+sb.id+'" class="sr">Подзадача</label><input class="ein sm" id="si'+sb.id+'" data-st="'+id+'|'+sb.id+'" value="'+esc(sb.text)+'" placeholder="Подзадача"><button class="del" data-sdel="'+id+'|'+sb.id+'" aria-label="Удалить подзадачу">×</button></div>').join("")
+            +'<div class="subedit">'+subsOf(id).map(sb=>'<div class="srow" data-sid="'+sb.id+'" data-p="'+id+'"><span class="grip sgrip" aria-label="Перетащить подзадачу">'+GRIP+'</span><label for="si'+sb.id+'" class="sr">Подзадача</label><input class="ein sm" id="si'+sb.id+'" data-st="'+id+'|'+sb.id+'" value="'+esc(sb.text)+'" placeholder="Подзадача"><button class="del" data-sdel="'+id+'|'+sb.id+'" aria-label="Удалить подзадачу">×</button></div>').join("")
             +'<button class="lnk sadd" data-sadd="'+id+'">+ подзадача</button></div></li>';
         }
         const sb=subsOf(id).filter(x=>x.text), open=ui.open[id];
@@ -416,7 +421,7 @@ document.getElementById("days").addEventListener("click",async e=>{
   }
   if(ds.addopen){ui.add=ui.add===ds.addopen?null:ds.addopen;ui.edit=null;render();}
   if(ds.editopen){ui.edit=ds.editopen;ui.add=null;render();}
-  if(ds.doneEdit){Object.keys(st.subs).forEach(k=>{st.subs[k]=st.subs[k].filter(x=>x.text);if(!st.subs[k].length)delete st.subs[k];});save();ui.edit=null;render();}
+  if(ds.doneEdit){Object.keys(st.subs).forEach(k=>{st.subs[k]=st.subs[k].filter(x=>x.text);});save();ui.edit=null;render();}
   if(ds.tog){ui.open[ds.tog]=!ui.open[ds.tog];render();}
   if(ds.sadd){const nid=newId("s");(st.subs[ds.sadd]=st.subs[ds.sadd]||[]).push({id:nid,text:""});ui.open[ds.sadd]=true;save();render();const f=document.getElementById("si"+nid);if(f)f.focus();}
   if(ds.sdel){const [p,sid]=ds.sdel.split("|");st.subs[p]=subsOf(p).filter(x=>x.id!==sid);delete st.done[sid];save();render();}
@@ -429,22 +434,29 @@ document.getElementById("days").addEventListener("click",async e=>{
 let drag=null;
 document.getElementById("days").addEventListener("pointerdown",e=>{
   const g=e.target.closest(".grip");if(!g)return;
-  const li=g.closest("li");e.preventDefault();
-  drag={li:li,ul:li.parentNode,id:e.pointerId};li.classList.add("dragging");
+  const sr=g.closest(".srow");
+  const li=sr||g.closest("li");e.preventDefault();
+  drag={li:li,ul:li.parentNode,id:e.pointerId,sub:!!sr};li.classList.add("dragging");
   try{g.setPointerCapture(e.pointerId);}catch(_){}
 });
 document.getElementById("days").addEventListener("pointermove",e=>{
   if(!drag||e.pointerId!==drag.id)return;e.preventDefault();
   const y=e.clientY, li=drag.li;
-  const prev=li.previousElementSibling, next=li.nextElementSibling;
+  const ok=el=>el&&(drag.sub?el.classList.contains("srow"):true);
+  const prev=ok(li.previousElementSibling)?li.previousElementSibling:null, next=ok(li.nextElementSibling)?li.nextElementSibling:null;
   if(prev){const r=prev.getBoundingClientRect();if(y<r.top+r.height/2){drag.ul.insertBefore(li,prev);return;}}
   if(next){const r=next.getBoundingClientRect();if(y>r.top+r.height/2){drag.ul.insertBefore(next,li);}}
 });
 function endDrag(e){
   if(!drag||(e&&e.pointerId!==drag.id))return;
   const ul=drag.ul;drag.li.classList.remove("dragging");
-  const d=ul.closest("article").dataset.day;
-  st.order[d]=[...ul.querySelectorAll("li[data-id]")].map(x=>x.dataset.id);
+  if(drag.sub){
+    const p=drag.li.dataset.p, ids=[...ul.querySelectorAll(".srow[data-sid]")].map(x=>x.dataset.sid);
+    const L=subsOf(p);st.subs[p]=ids.map(i=>L.find(x=>x.id===i)).filter(Boolean);
+  }else{
+    const d=ul.closest("article").dataset.day;
+    st.order[d]=[...ul.querySelectorAll(":scope > li[data-id]")].map(x=>x.dataset.id);
+  }
   drag=null;save();
 }
 document.getElementById("days").addEventListener("pointerup",endDrag);
