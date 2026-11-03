@@ -265,7 +265,7 @@ li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 38 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 39 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -638,7 +638,8 @@ document.getElementById("days").addEventListener("click",async e=>{
     else if(st.skip[sid]){delete st.skip[sid];}
     else{st.done[sid]=1;}
     const L=subsOf(p).filter(x=>x.text);
-    if(L.length&&L.every(x=>st.done[x.id])){st.done[p]=1;delete st.skip[p];}else delete st.done[p];
+    // все подзадачи с галочкой — основная задача отмечается сама; иначе её отметку не трогаем
+    if(L.length&&L.every(x=>st.done[x.id])){st.done[p]=1;delete st.skip[p];}
     save();render();return;
   }
   const cbEl=e.target.closest("[data-cb]");
