@@ -211,7 +211,7 @@ li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 30 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 31 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -241,6 +241,7 @@ const KEY="sprint-blog-v2";
 let st={done:{},rest:{},custom:{},edit:{},min:{},focus:{},goals:null};
 const SEED={"done": {"1101a": 1, "1101b": 1, "smvwrqj1d3lv": 1, "umvwpt5pe": 1, "1101d": 1, "smvwrqqzt1w6": 1, "umvy76ne7": 1, "smvws1qj3jat": 1, "1102a": 1, "smvws1y3lntr": 1, "smvxf1iala26": 1}, "rest": {"2026-11-07": false, "2026-11-02": false, "2026-11-05": false}, "custom": {"2026-11-07": [{"id": "umvxfcb6i", "text": "Пробные записи на камеру с петличкой, для себя", "min": 60}, {"id": "umvxfxxq7", "text": "Резерв (доделать то, что не успел)", "min": 60}], "2026-11-01": [{"id": "umvwpt5pe", "text": "Задание 5 урока из ФМ 5", "min": 60}], "2026-11-03": [{"id": "umvxexzdo", "text": "ФК 3 «Упаковка блога»", "min": 120}, {"id": "umw0e9myc", "text": "ФК 2 «Стратегия блога»", "min": 90}], "2026-11-04": [{"id": "umvxfamqq", "text": "Продолжаю упаковку блога", "min": 120}], "2026-11-02": [{"id": "umvxp4wrw", "text": "ФК 2 «Стратегия блога»", "min": 90}, {"id": "umvy76ne7", "text": "Задача 6 урока из ФМ 6", "min": 60}], "2026-11-05": [{"id": "umvxfr8hh", "text": "Резерв (доделать то, что не успел)", "min": 120}], "2026-11-06": [{"id": "umvxfuyyj", "text": "ФМ 10 «Идентичность. Кто ты в своих глазах?»", "min": 90}]}, "edit": {"1101a": {"text": "Обзор и Планирование недели", "min": 30}, "1101c": {"text": "ФК 2 «Стратегия блога»", "min": 90}, "1101d": {"text": "ФМ 6 «Родители и деньги»", "min": 90}, "1102a": {"text": "ФМ 7 «Метафора денег»", "min": 60}, "1102b": {"min": 30, "text": "Собеседование 13:30"}, "1104b": {"text": ": посмотреть"}, "1103b": {"text": "ФМ 8 «Вредные убеждения»", "min": 60}, "1104a": {"text": "ФМ 9 «Перепрошивка вредных убеждений»", "min": 60}, "1106b": {"min": 120, "text": "ФК 4 «100 идей для контента»"}}, "min": {}, "focus": {"0": "Переоформлен профиль, написано 5 сценариев для Reels", "1": "3 снятых и смонтированных Reels"}, "goals": null, "tags": {"2026-11-07": [{"text": "Важно", "color": "violet"}], "2026-11-08": [{"text": "Выходной ?", "color": "green"}], "2026-11-03": [{"text": "Собеседование 15:00", "color": "blue"}]}, "hidden": {"1101e": 1, "1104b": 1, "1103a": 1, "1105a": 1, "1105b": 1, "1106a": 1, "1102b": 1, "1101c": 1}, "reward": {"0": "Закажу сет роллов", "1": "Схожу в баню"}, "order": {"2026-11-01": ["1101a", "1101b", "umvwpt5pe", "1101d"], "2026-11-03": ["1103b", "umw0e9myc", "umvxexzdo"], "2026-11-02": ["umvy76ne7", "1102a", "umvxp4wrw"]}, "subs": {"1101d": [{"id": "smvwrqj1d3lv", "text": "Транскрибация"}, {"id": "smvwrqqzt1w6", "text": "Выполнить задание"}], "1102a": [{"id": "smvws1qj3jat", "text": "Транскрибация"}, {"id": "smvws1y3lntr", "text": "Выполнить задание"}], "1103b": [{"id": "smvxf1iala26", "text": "Транскрипбация"}, {"id": "smvxf258tc43", "text": "Выполнить задание"}], "umvxexzdo": [{"id": "smvxf3ehzj3t", "text": "Транскрипбация"}, {"id": "smvxf7vhsqmv", "text": "Переоформить профиль (ник, имя, шапка, аватар)"}, {"id": "smvxfo41xwk2", "text": "Выполнить задание"}], "1104a": [{"id": "smvxf5kwgh4e", "text": "Транскрипбация"}, {"id": "smvxf5pt6ha9", "text": "Выполнить задание"}], "umvxfamqq": [{"id": "smvxfof674ss", "text": "Хайлайты ?"}, {"id": "smvxfokoszdz", "text": "Что еще ?"}], "umvxfuyyj": [{"id": "smvxfvn49puz", "text": "Транскрипбация"}, {"id": "smvxfvsrptag", "text": "Выполнить задание"}], "1106b": [{"id": "smvxg0gsa0hs", "text": "Транскрипбация"}, {"id": "smvxg10rzpdv", "text": "Сгенерировать 20-30 хороший идей"}, {"id": "smvxg1lo7x4e", "text": "Провести распаковку и закинуть ее в ИИ"}], "umvxp4wrw": [{"id": "smvxp529jheq", "text": "Транскрипбация"}, {"id": "smvxp5bbk7c7", "text": "Заполнить паспорт блога"}], "1101c": [{"id": "1101c1", "text": "Транскрибация"}, {"id": "1101c2", "text": "Выполнить задание"}], "umw0e9myc": [{"id": "smw0eab9beqr", "text": "Транскрибация"}, {"id": "smw0eat61rvc", "text": "Заполнить паспорт блога"}]}};
 let fromSeed=false;
+const SEED_TAG="seed-2026-11-03";
 try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));else{st=Object.assign(st,JSON.parse(JSON.stringify(SEED)));fromSeed=true;}}catch(e){st=Object.assign(st,JSON.parse(JSON.stringify(SEED)));fromSeed=true;}
 if(!st.custom)st.custom={};
 if(!st.edit)st.edit={};
@@ -257,6 +258,12 @@ const DEF_SUBS={"1101c":[{id:"1101c1",text:"Транскрибация"},{id:"11
 Object.keys(DEF_SUBS).forEach(k=>{if(!(k in st.subs))st.subs[k]=DEF_SUBS[k].map(x=>({id:x.id,text:x.text}));});
 // если «Задание 5 урока» уже добавлено как своя задача — не дублируем
 if(!("1101e" in st.hidden)&&(st.custom["2026-11-01"]||[]).some(c=>/Задание 5 урока/i.test(c.text)))st.hidden["1101e"]=1;
+if(st.seedTag!==SEED_TAG){
+  const keepSkip=st.skip||{};
+  Object.keys(st).forEach(k=>delete st[k]);
+  Object.assign(st,{done:{},rest:{},custom:{},edit:{},min:{},focus:{},tags:{},hidden:{},reward:{},order:{},subs:{},skip:{}},JSON.parse(JSON.stringify(SEED)));
+  st.seedTag=SEED_TAG;
+}
 if(!st.mig1){
   Object.keys(st.subs).forEach(k=>st.subs[k].forEach(x=>{if(x.text==="Транскрипбация")x.text="Транскрибация";}));
   if(!st.skip)st.skip={};
