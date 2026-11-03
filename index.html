@@ -19,7 +19,7 @@
   --bg:#F4F5F8; --surface:#FFFFFF; --ink:#14171C; --muted:#5E6573; --line:#E2E5EB;
   --accent:#1A6AE0; --accent-soft:#E3F1FE; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
   --c-orange:#C2410C; --c-orange-bg:#FFEDE3; --c-blue:#1A6AE0; --c-blue-bg:#E3F1FE; --c-green:#2F7D52; --c-green-bg:#E3F4EA; --c-violet:#6D3FD1; --c-violet-bg:#EFE8FD; --c-pink:#C0266D; --c-pink-bg:#FDE7F1;
-  --done-bg:#E9EBEF; --done-line:#DCDFE5;
+  --done-bg:#E9EBEF; --done-line:#DCDFE5; --c-skip:#F2B705; --c-skip-bg:#FFF5D6; --c-skip-fg:#9A6B00;
   --gym:#C2410C; --gym-soft:#FFEDE3; --rest:#3F7D5C; --rest-soft:#E3F2EA; --warn:#B45309; --warn-soft:#FFF4DB;
   --display:"Unbounded", "Arial Black", sans-serif; --body:"Manrope", system-ui, -apple-system, sans-serif;
   color-scheme:light;
@@ -29,7 +29,7 @@
     --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
     --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
     --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
-    --done-bg:#121418; --done-line:#24272E;
+    --done-bg:#121418; --done-line:#24272E; --c-skip:#E5AE0B; --c-skip-bg:#3A2E10; --c-skip-fg:#F5C842;
     --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
     color-scheme:dark;
   }
@@ -38,7 +38,7 @@
   --bg:#0F1115; --surface:#181B21; --ink:#ECEEF2; --muted:#9AA1AE; --line:#2A2E36;
   --accent:#5AAEF5; --accent-soft:#13283D; --grad:linear-gradient(180deg,#47B5F3 0%,#1558D6 100%);
   --c-orange:#FB923C; --c-orange-bg:#3A2416; --c-blue:#5AAEF5; --c-blue-bg:#13283D; --c-green:#6CC59A; --c-green-bg:#1A3127; --c-violet:#B39BFA; --c-violet-bg:#2A2142; --c-pink:#F47FB3; --c-pink-bg:#3D1A2B;
-  --done-bg:#121418; --done-line:#24272E;
+  --done-bg:#121418; --done-line:#24272E; --c-skip:#E5AE0B; --c-skip-bg:#3A2E10; --c-skip-fg:#F5C842;
   --gym:#FB923C; --gym-soft:#3A2416; --rest:#6CC59A; --rest-soft:#1A3127; --warn:#FBBF24; --warn-soft:#3A2E12;
   color-scheme:dark;
 }
@@ -92,6 +92,14 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .day.today{border:2px solid var(--accent)}
 .day.isrest{opacity:.85}
 .day.alldone{background:var(--done-bg);border-color:var(--done-line)}
+.lab{flex:1;display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:15px;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+.cb{width:20px;height:20px;flex:none;margin-top:1px;border:2px solid var(--muted);border-radius:5px;display:flex;align-items:center;justify-content:center;opacity:.9}
+.lab.done .cb{background:var(--accent);border-color:var(--accent);opacity:1}
+.lab.skip .cb{background:var(--c-skip);border-color:var(--c-skip);opacity:1}
+.lab.sub{font-size:14px;color:var(--muted);gap:8px}
+.lab.sub .cb{width:17px;height:17px;border-radius:4px}
+.lab.done .t,.lab.skip .t{text-decoration:line-through;color:var(--muted)}
+.pill.skipp{background:var(--c-skip-bg);color:var(--c-skip-fg)}
 .dhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dname{font-family:var(--display);font-weight:500;font-size:15px}
 .pill{font-size:12px;font-weight:700;padding:3px 8px;border-radius:99px}
@@ -203,7 +211,7 @@ li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 27 · 31 октября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 30 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -231,7 +239,9 @@ const WEEKS=[
 
 const KEY="sprint-blog-v2";
 let st={done:{},rest:{},custom:{},edit:{},min:{},focus:{},goals:null};
-try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));}catch(e){}
+const SEED={"done": {"1101a": 1, "1101b": 1, "smvwrqj1d3lv": 1, "umvwpt5pe": 1, "1101d": 1, "smvwrqqzt1w6": 1, "umvy76ne7": 1, "smvws1qj3jat": 1, "1102a": 1, "smvws1y3lntr": 1, "smvxf1iala26": 1}, "rest": {"2026-11-07": false, "2026-11-02": false, "2026-11-05": false}, "custom": {"2026-11-07": [{"id": "umvxfcb6i", "text": "Пробные записи на камеру с петличкой, для себя", "min": 60}, {"id": "umvxfxxq7", "text": "Резерв (доделать то, что не успел)", "min": 60}], "2026-11-01": [{"id": "umvwpt5pe", "text": "Задание 5 урока из ФМ 5", "min": 60}], "2026-11-03": [{"id": "umvxexzdo", "text": "ФК 3 «Упаковка блога»", "min": 120}, {"id": "umw0e9myc", "text": "ФК 2 «Стратегия блога»", "min": 90}], "2026-11-04": [{"id": "umvxfamqq", "text": "Продолжаю упаковку блога", "min": 120}], "2026-11-02": [{"id": "umvxp4wrw", "text": "ФК 2 «Стратегия блога»", "min": 90}, {"id": "umvy76ne7", "text": "Задача 6 урока из ФМ 6", "min": 60}], "2026-11-05": [{"id": "umvxfr8hh", "text": "Резерв (доделать то, что не успел)", "min": 120}], "2026-11-06": [{"id": "umvxfuyyj", "text": "ФМ 10 «Идентичность. Кто ты в своих глазах?»", "min": 90}]}, "edit": {"1101a": {"text": "Обзор и Планирование недели", "min": 30}, "1101c": {"text": "ФК 2 «Стратегия блога»", "min": 90}, "1101d": {"text": "ФМ 6 «Родители и деньги»", "min": 90}, "1102a": {"text": "ФМ 7 «Метафора денег»", "min": 60}, "1102b": {"min": 30, "text": "Собеседование 13:30"}, "1104b": {"text": ": посмотреть"}, "1103b": {"text": "ФМ 8 «Вредные убеждения»", "min": 60}, "1104a": {"text": "ФМ 9 «Перепрошивка вредных убеждений»", "min": 60}, "1106b": {"min": 120, "text": "ФК 4 «100 идей для контента»"}}, "min": {}, "focus": {"0": "Переоформлен профиль, написано 5 сценариев для Reels", "1": "3 снятых и смонтированных Reels"}, "goals": null, "tags": {"2026-11-07": [{"text": "Важно", "color": "violet"}], "2026-11-08": [{"text": "Выходной ?", "color": "green"}], "2026-11-03": [{"text": "Собеседование 15:00", "color": "blue"}]}, "hidden": {"1101e": 1, "1104b": 1, "1103a": 1, "1105a": 1, "1105b": 1, "1106a": 1, "1102b": 1, "1101c": 1}, "reward": {"0": "Закажу сет роллов", "1": "Схожу в баню"}, "order": {"2026-11-01": ["1101a", "1101b", "umvwpt5pe", "1101d"], "2026-11-03": ["1103b", "umw0e9myc", "umvxexzdo"], "2026-11-02": ["umvy76ne7", "1102a", "umvxp4wrw"]}, "subs": {"1101d": [{"id": "smvwrqj1d3lv", "text": "Транскрибация"}, {"id": "smvwrqqzt1w6", "text": "Выполнить задание"}], "1102a": [{"id": "smvws1qj3jat", "text": "Транскрибация"}, {"id": "smvws1y3lntr", "text": "Выполнить задание"}], "1103b": [{"id": "smvxf1iala26", "text": "Транскрипбация"}, {"id": "smvxf258tc43", "text": "Выполнить задание"}], "umvxexzdo": [{"id": "smvxf3ehzj3t", "text": "Транскрипбация"}, {"id": "smvxf7vhsqmv", "text": "Переоформить профиль (ник, имя, шапка, аватар)"}, {"id": "smvxfo41xwk2", "text": "Выполнить задание"}], "1104a": [{"id": "smvxf5kwgh4e", "text": "Транскрипбация"}, {"id": "smvxf5pt6ha9", "text": "Выполнить задание"}], "umvxfamqq": [{"id": "smvxfof674ss", "text": "Хайлайты ?"}, {"id": "smvxfokoszdz", "text": "Что еще ?"}], "umvxfuyyj": [{"id": "smvxfvn49puz", "text": "Транскрипбация"}, {"id": "smvxfvsrptag", "text": "Выполнить задание"}], "1106b": [{"id": "smvxg0gsa0hs", "text": "Транскрипбация"}, {"id": "smvxg10rzpdv", "text": "Сгенерировать 20-30 хороший идей"}, {"id": "smvxg1lo7x4e", "text": "Провести распаковку и закинуть ее в ИИ"}], "umvxp4wrw": [{"id": "smvxp529jheq", "text": "Транскрипбация"}, {"id": "smvxp5bbk7c7", "text": "Заполнить паспорт блога"}], "1101c": [{"id": "1101c1", "text": "Транскрибация"}, {"id": "1101c2", "text": "Выполнить задание"}], "umw0e9myc": [{"id": "smw0eab9beqr", "text": "Транскрибация"}, {"id": "smw0eat61rvc", "text": "Заполнить паспорт блога"}]}};
+let fromSeed=false;
+try{const s=localStorage.getItem(KEY);if(s)st=Object.assign(st,JSON.parse(s));else{st=Object.assign(st,JSON.parse(JSON.stringify(SEED)));fromSeed=true;}}catch(e){st=Object.assign(st,JSON.parse(JSON.stringify(SEED)));fromSeed=true;}
 if(!st.custom)st.custom={};
 if(!st.edit)st.edit={};
 if(!st.min)st.min={};
@@ -241,10 +251,18 @@ if(!st.tags)st.tags={};
 if(!st.hidden)st.hidden={};
 if(!st.order)st.order={};
 if(!st.subs)st.subs={};
+if(!st.skip)st.skip={};
+function skipCount(day){return dayTasks(day).filter(t=>st.skip[t[0]]&&!st.done[t[0]]).length;}
 const DEF_SUBS={"1101c":[{id:"1101c1",text:"Транскрибация"},{id:"1101c2",text:"Выполнить задание"}],"1101d":[{id:"1101d1",text:"Транскрибация"},{id:"1101d2",text:"Выполнить задание"}]};
 Object.keys(DEF_SUBS).forEach(k=>{if(!(k in st.subs))st.subs[k]=DEF_SUBS[k].map(x=>({id:x.id,text:x.text}));});
 // если «Задание 5 урока» уже добавлено как своя задача — не дублируем
 if(!("1101e" in st.hidden)&&(st.custom["2026-11-01"]||[]).some(c=>/Задание 5 урока/i.test(c.text)))st.hidden["1101e"]=1;
+if(!st.mig1){
+  Object.keys(st.subs).forEach(k=>st.subs[k].forEach(x=>{if(x.text==="Транскрипбация")x.text="Транскрибация";}));
+  if(!st.skip)st.skip={};
+  if(!st.done["umvxp4wrw"])st.skip["umvxp4wrw"]=1;
+  st.mig1=1;
+}
 function subsOf(id){return st.subs[id]||[];}
 function newId(p){return p+Date.now().toString(36)+Math.random().toString(36).slice(2,5);}
 const TCOL=["orange","blue","green","violet","pink"];
@@ -279,6 +297,8 @@ let week=0;
 const wi=WEEKS.findIndex(w=>w.days.some(d=>d.d===TODAY));
 if(wi>=0)week=wi;
 
+const CHK='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6.3 4.8 8.8 9.8 3.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const XMK='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
 const ui={add:null,edit:null,focus:false,reward:false,goals:false,open:{}};
 const GRIP='<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor"><circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="9" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="9" cy="13" r="1.5"/></g></svg>';
 const PEN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
@@ -312,14 +332,18 @@ function render(){
     const mins=list.reduce((a,t)=>a+(t[3]?0:t[2]),0);
     const past=day.d<TODAY, fx=day.d.replace(/-/g,""), editing=ui.edit===day.d, adding=ui.add===day.d;
     const el=document.createElement("article");el.dataset.day=day.d;
-    el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"")+(!rest&&total&&dc===total?" alldone":"");
+    const sc=skipCount(day), closed=!rest&&total&&dc+sc===total;
+    el.className="day"+(day.d===TODAY?" today":"")+(rest?" isrest":"")+(closed?" alldone":"");
     let pills="";
     if(day.d===TODAY)pills+='<span class="pill ev">Сегодня</span>';
     if(!editing)dayTags(day).forEach(t=>{if(t.text)pills+='<span class="pill tc-'+t.color+'">'+esc(t.text)+'</span>';});
     if(rest)pills+='<span class="pill rest">Отдых</span>';
     else if(total&&dc===total)pills+='<span class="pill done">Всё сделано</span>';
-    else if(dc>0)pills+='<span class="pill done">Засчитан</span>';
-    else if(past)pills+='<span class="pill miss">Пропуск</span>';
+    else{
+      if(dc>0)pills+='<span class="pill done">Засчитан</span>';
+      if(sc>0)pills+='<span class="pill skipp">Не выполнено: '+sc+'</span>';
+      if(!dc&&!sc&&past)pills+='<span class="pill miss">Пропуск</span>';
+    }
     const time=rest?"":"~"+fmt(mins);
     let html='<div class="dhead"><span class="dname">'+day.n+'</span>'+pills+'</div>';
     if(editing){
@@ -335,10 +359,11 @@ function render(){
         }
         const sb=subsOf(id).filter(x=>x.text), open=ui.open[id];
         const sd=sb.filter(x=>st.done[x.id]).length;
-        let h='<li><div class="trow3"><label for="'+cid+'"><input type="checkbox" id="'+cid+'" data-k="'+id+'"'+(st.done[id]?" checked":"")+'><span class="t">'+esc(t[1])+'</span></label>';
+        const stt=st.done[id]?"done":(st.skip[id]?"skip":"");
+        let h='<li><div class="trow3"><div class="lab '+stt+'" data-cb="'+id+'" role="button" tabindex="0" aria-label="'+esc(t[1])+': '+(stt==="done"?"выполнено":stt==="skip"?"не выполнено":"не отмечено")+'"><span class="cb">'+(stt==="done"?CHK:stt==="skip"?XMK:"")+'</span><span class="t">'+esc(t[1])+'</span></div>';
         if(sb.length)h+='<button class="stog'+(open?' open':'')+'" data-tog="'+id+'" aria-expanded="'+(open?'true':'false')+'" aria-label="Подзадачи"><span>'+sd+'/'+sb.length+'</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
         h+='<span class="m">'+t[2]+' мин</span></div>';
-        if(sb.length&&open)h+='<ul class="subs">'+sb.map(x=>'<li><label for="cs'+x.id+'"><input type="checkbox" id="cs'+x.id+'" data-sk="'+x.id+'" data-parent="'+id+'"'+(st.done[x.id]?" checked":"")+'><span class="t">'+esc(x.text)+'</span></label></li>').join("")+'</ul>';
+        if(sb.length&&open)h+='<ul class="subs">'+sb.map(x=>(()=>{const ss=st.done[x.id]?"done":(st.skip[x.id]?"skip":"");return '<li><div class="lab sub '+ss+'" data-scb="'+x.id+'" data-parent="'+id+'" role="button" tabindex="0"><span class="cb">'+(ss==="done"?CHK:ss==="skip"?XMK:"")+'</span><span class="t">'+esc(x.text)+'</span></div></li>';})()).join("")+'</ul>';
         return h+'</li>';
       }).join("")+'</ul>';
       if(adding){
@@ -407,12 +432,12 @@ document.getElementById("days").addEventListener("change",e=>{
   if(sk){
     if(e.target.checked)st.done[sk]=1;else delete st.done[sk];
     const p=e.target.dataset.parent, L=subsOf(p).filter(x=>x.text);
-    if(L.length&&L.every(x=>st.done[x.id]))st.done[p]=1;else delete st.done[p];
+    if(L.length&&L.every(x=>st.done[x.id])){st.done[p]=1;delete st.skip[p];}else delete st.done[p];
     save();render();
   }
 });
 document.getElementById("days").addEventListener("click",async e=>{
-  const ds=e.target.dataset||{};
+  const ds=((e.target.closest&&e.target.closest("button"))||e.target).dataset||{};
   if(ds.copy){
     const day=ALL.find(d=>d.d===ds.copy);
     const L=dayTasks(day);const text=L.map(t=>t[1]).join("\n");
@@ -422,6 +447,24 @@ document.getElementById("days").addEventListener("click",async e=>{
   if(ds.addopen){ui.add=ui.add===ds.addopen?null:ds.addopen;ui.edit=null;render();}
   if(ds.editopen){ui.edit=ds.editopen;ui.add=null;render();}
   if(ds.doneEdit){Object.keys(st.subs).forEach(k=>{st.subs[k]=st.subs[k].filter(x=>x.text);});save();ui.edit=null;render();}
+  const sEl=e.target.closest("[data-scb]");
+  if(sEl){
+    const sid=sEl.dataset.scb, p=sEl.dataset.parent;
+    if(st.done[sid]){delete st.done[sid];st.skip[sid]=1;}
+    else if(st.skip[sid]){delete st.skip[sid];}
+    else{st.done[sid]=1;}
+    const L=subsOf(p).filter(x=>x.text);
+    if(L.length&&L.every(x=>st.done[x.id])){st.done[p]=1;delete st.skip[p];}else delete st.done[p];
+    save();render();return;
+  }
+  const cbEl=e.target.closest("[data-cb]");
+  if(cbEl){
+    const id=cbEl.dataset.cb, L=subsOf(id);
+    if(st.done[id]){delete st.done[id];st.skip[id]=1;}
+    else if(st.skip[id]){delete st.skip[id];L.forEach(x=>delete st.done[x.id]);}
+    else{st.done[id]=1;L.forEach(x=>st.done[x.id]=1);}
+    save();render();return;
+  }
   if(ds.tog){ui.open[ds.tog]=!ui.open[ds.tog];render();}
   if(ds.sadd){const nid=newId("s");(st.subs[ds.sadd]=st.subs[ds.sadd]||[]).push({id:nid,text:""});ui.open[ds.sadd]=true;save();render();const f=document.getElementById("si"+nid);if(f)f.focus();}
   if(ds.sdel){const [p,sid]=ds.sdel.split("|");st.subs[p]=subsOf(p).filter(x=>x.id!==sid);delete st.done[sid];save();render();}
@@ -516,15 +559,16 @@ document.getElementById("bkCopy").onclick=async()=>{
 document.getElementById("bkLoad").onclick=()=>{
   try{const v=JSON.parse(document.getElementById("bkIn").value);
     if(!v||typeof v.done!=="object")throw 0;
-    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},order:v.order||{},subs:v.subs||{},min:v.min||{},focus:v.focus||{},reward:v.reward||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
+    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},order:v.order||{},subs:v.subs||{},skip:v.skip||{},min:v.min||{},focus:v.focus||{},reward:v.reward||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
   catch(e){toast("Текст бэкапа не распознан. Скопируй его целиком.");}
 };
 document.getElementById("report").onclick=async()=>{
-  const lines=["Отчёт по спринту блога ("+TODAY+")"];
+  const sk=ALL.reduce((a,d)=>a+(isRest(d)?0:skipCount(d)),0);
+  const lines=["Отчёт по спринту блога ("+TODAY+")","[x] — сделано, [✕] — не выполнено / перенесено. Всего не выполнено: "+sk];
   ALL.forEach(d=>{
     const L=dayTasks(d);if(!L.length&&!isRest(d))return;
     lines.push("\n"+d.n+(isRest(d)?" — отдых":""));
-    if(!isRest(d))L.forEach(t=>{lines.push((st.done[t[0]]?"[x] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":""));subsOf(t[0]).filter(x=>x.text).forEach(x=>lines.push("    "+(st.done[x.id]?"[x] ":"[ ] ")+x.text));});
+    if(!isRest(d))L.forEach(t=>{lines.push((st.done[t[0]]?"[x] ":st.skip[t[0]]?"[✕] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":""));subsOf(t[0]).filter(x=>x.text).forEach(x=>lines.push("    "+(st.done[x.id]?"[x] ":st.skip[x.id]?"[✕] ":"[ ] ")+x.text));});
   });
   const text=lines.join("\n");
   try{await navigator.clipboard.writeText(text);toast("Отчёт скопирован, вставь его в чат с Claude");}
