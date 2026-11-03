@@ -84,6 +84,49 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .gedit{display:flex;align-items:flex-end;gap:8px;flex:1;min-width:220px}
 .gedit textarea{flex:1;font:16px var(--body);border:0;border-bottom:1px solid var(--accent);background:transparent;color:var(--ink);padding:4px 0;resize:none;outline:none}
 .sep{margin:0 7px;opacity:.7}
+.wkg{display:flex;flex-direction:column;gap:12px}
+.rr{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.rr>div{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border-radius:12px}
+.rr>div.t{background:var(--accent-soft)}
+.rr .dl{font-size:11px;font-weight:600;color:var(--muted)}
+.rr .t .dl{color:var(--accent)}
+.wins{font-size:13px;font-weight:600;border-radius:10px;padding:8px 10px;background:var(--c-green-bg);color:var(--c-green)}
+.genb{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.cprog{border-top:1px dashed var(--line);padding-top:10px}
+.cprog summary{list-style:none;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.cprog summary::-webkit-details-marker{display:none}
+.cpk{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.cpchev{width:8px;height:8px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);margin-right:4px;transition:transform .15s}
+.cprog[open] .cpchev{transform:rotate(-135deg)}
+#cpbody{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.cp{display:flex;flex-direction:column;gap:6px}
+.cpr{display:flex;justify-content:space-between;align-items:baseline}
+.cpn{font-size:15px;font-weight:600;color:var(--ink)}
+.cpc{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cpf{font-size:12px;color:var(--accent)}
+.cpf.late{color:var(--c-skip-fg)}
+.cpbtn{border:0;background:transparent;padding:0;cursor:pointer;font:inherit}
+.cpe{display:flex;align-items:center;gap:6px}
+.ein.cpin{flex:none;width:52px;text-align:right;font-size:16px;padding:2px 0}
+.cphint{font-size:11px;color:var(--muted);line-height:1.4}
+.rsg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rsc{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.rsl{font-size:12px;color:var(--muted)}
+.rsn{display:flex;align-items:center;justify-content:space-between}
+.rsn b{font-family:var(--display);font-size:24px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.rsn small{font-size:13px;color:var(--muted);font-weight:500;font-family:var(--body)}
+.stp{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--accent);font:600 18px var(--body);line-height:1;cursor:pointer}
+.rgoal{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
+.rgt{font-size:15px;line-height:1.5;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.rgt.empty{color:var(--muted);font-size:14px}
+.rgin{font:15px/1.5 var(--body);font-size:16px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--accent);padding:4px 0;resize:none;outline:none;width:100%;overflow:hidden}
+.rsub{display:flex;flex-direction:column;gap:8px}
+.spk{width:100%;height:56px;display:block}
+.dlt{color:var(--c-green);font-weight:700}.dlt.neg{color:var(--c-skip-fg)}
+#resbody{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.msr{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.msl{flex:1}
+.ein.msd{flex:none;width:140px;font-size:16px}
 .frow{display:flex;align-items:center;gap:6px}
 .pen{border:0;background:transparent;color:var(--muted);padding:2px 4px;cursor:pointer;display:inline-flex;vertical-align:-2px;opacity:.7}
 .pen:hover{opacity:1;color:var(--ink)}
@@ -99,6 +142,12 @@ details.habits ul{margin:8px 0 0;padding-left:18px;display:flex;flex-direction:c
 .lab.sub{font-size:14px;color:var(--muted);gap:8px}
 .lab.sub .cb{width:17px;height:17px;border-radius:4px}
 .lab.done .t,.lab.skip .t{text-decoration:line-through;color:var(--muted)}
+.why{margin:6px 0 4px 30px;display:flex;flex-direction:column;gap:6px}
+.whyc{display:flex;flex-wrap:wrap;gap:6px}
+.wchip{font:600 12px var(--body);border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:99px;padding:4px 10px;cursor:pointer}
+.wchip.on{background:var(--c-skip-bg);border-color:var(--c-skip);color:var(--c-skip-fg)}
+.ein.why-in{font-size:16px;color:var(--ink);padding:4px 0;flex:none;width:100%}
+.ein.why-in::placeholder{color:var(--muted)}
 .pill.skipp{background:var(--c-skip-bg);color:var(--c-skip-fg)}
 .dhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .dname{font-family:var(--display);font-weight:500;font-size:15px}
@@ -174,13 +223,18 @@ li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
   <section class="goals" id="goals" aria-label="Цели"></section>
 
   <section class="summary" aria-label="Прогресс">
-    <div class="stats">
-      <div class="stat"><b id="sDone">0</b><span>задач сделано</span></div>
-      <div class="stat"><b id="sDays">0</b><span>дней засчитано</span></div>
-      <div class="stat"><b id="sStreak">0</b><span>дней подряд</span></div>
-    </div>
-    <div class="bar" aria-hidden="true"><i id="bar" style="width:0%"></i></div>
-    <div id="banner" class="banner ok">День засчитан, если сделана хотя бы одна задача по блогу. Главное правило: не пропускать дважды.</div>
+    <div class="wkg"><span class="cpk">Неделя одним взглядом</span><div class="rr" id="rings"></div><div class="wins" id="wkIns"></div></div>
+    <div id="banner" class="banner ok" hidden>День засчитан, если сделана хотя бы одна задача по блогу. Главное правило: не пропускать дважды.</div>
+    <details class="cprog" id="cprog"><summary><span class="cpk">Прогресс по курсам</span><span class="cpchev" aria-hidden="true"></span></summary><div id="cpbody"></div></details>
+    <details class="cprog" id="cres"><summary><span class="cpk">Результаты</span><span class="cpchev" aria-hidden="true"></span></summary><div id="resbody"></div></details>
+    <details class="cprog" id="cgen"><summary><span class="cpk">Общее</span><span class="cpchev" aria-hidden="true"></span></summary><div class="genb">
+      <div class="stats">
+        <div class="stat"><b id="sDone">0</b><span>задач сделано</span></div>
+        <div class="stat"><b id="sDays">0</b><span>дней засчитано</span></div>
+        <div class="stat"><b id="sSkip">0</b><span id="sSkipL">переносов</span></div>
+      </div>
+      <div class="bar" aria-hidden="true"><i id="bar" style="width:0%"></i></div>
+    </div></details>
   </section>
 
   <details class="habits">
@@ -211,7 +265,7 @@ li.dragging,.srow.dragging{background:var(--accent-soft);border-radius:8px}
     <textarea id="bkIn" rows="3" style="width:100%;margin-top:4px;border:1px solid var(--line);border-radius:10px;padding:8px;background:var(--bg);color:var(--ink);font:13px var(--body)"></textarea>
     <div class="actions" style="margin-top:8px"><button class="btn" id="bkLoad">Восстановить</button></div>
   </details>
-  <p class="foot">Версия 31 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
+  <p class="foot">Версия 38 · 3 ноября. Открывай только с иконки на рабочем столе: в Safari отметки хранятся отдельно.</p>
 </div>
 <div class="toast" id="toast" role="status"></div>
 
@@ -253,6 +307,8 @@ if(!st.hidden)st.hidden={};
 if(!st.order)st.order={};
 if(!st.subs)st.subs={};
 if(!st.skip)st.skip={};
+if(!st.reason)st.reason={};
+const REASONS=["Не хватило времени","Нет сил","Залип в телефон","Не понял, с чего начать","Перенёс осознанно"];
 function skipCount(day){return dayTasks(day).filter(t=>st.skip[t[0]]&&!st.done[t[0]]).length;}
 const DEF_SUBS={"1101c":[{id:"1101c1",text:"Транскрибация"},{id:"1101c2",text:"Выполнить задание"}],"1101d":[{id:"1101d1",text:"Транскрибация"},{id:"1101d2",text:"Выполнить задание"}]};
 Object.keys(DEF_SUBS).forEach(k=>{if(!(k in st.subs))st.subs[k]=DEF_SUBS[k].map(x=>({id:x.id,text:x.text}));});
@@ -261,9 +317,11 @@ if(!("1101e" in st.hidden)&&(st.custom["2026-11-01"]||[]).some(c=>/Задани�
 if(st.seedTag!==SEED_TAG){
   const keepSkip=st.skip||{};
   Object.keys(st).forEach(k=>delete st[k]);
-  Object.assign(st,{done:{},rest:{},custom:{},edit:{},min:{},focus:{},tags:{},hidden:{},reward:{},order:{},subs:{},skip:{}},JSON.parse(JSON.stringify(SEED)));
+  Object.assign(st,{done:{},rest:{},custom:{},edit:{},min:{},focus:{},tags:{},hidden:{},reward:{},order:{},subs:{},skip:{},reason:{}},JSON.parse(JSON.stringify(SEED)));
   st.seedTag=SEED_TAG;
 }
+if(!st.reason)st.reason={};if(!st.skip)st.skip={};
+if(!st.ms)st.ms={text:"Первый Reels",date:"2026-11-13"};
 if(!st.mig1){
   Object.keys(st.subs).forEach(k=>st.subs[k].forEach(x=>{if(x.text==="Транскрипбация")x.text="Транскрибация";}));
   if(!st.skip)st.skip={};
@@ -306,7 +364,7 @@ if(wi>=0)week=wi;
 
 const CHK='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6.3 4.8 8.8 9.8 3.4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const XMK='<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3 3 9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
-const ui={add:null,edit:null,focus:false,reward:false,goals:false,open:{}};
+const ui={subEd:false,rgEd:false,cpEdit:null,ms:false,add:null,edit:null,focus:false,reward:false,goals:false,open:{}};
 const GRIP='<svg width="12" height="16" viewBox="0 0 12 16" aria-hidden="true"><g fill="currentColor"><circle cx="3" cy="3" r="1.5"/><circle cx="9" cy="3" r="1.5"/><circle cx="3" cy="8" r="1.5"/><circle cx="9" cy="8" r="1.5"/><circle cx="3" cy="13" r="1.5"/><circle cx="9" cy="13" r="1.5"/></g></svg>';
 const PEN='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 function fmt(m){return m>=60?(Math.round(m/6)/10).toString().replace(".",",")+" ч":m+" мин";}
@@ -371,6 +429,10 @@ function render(){
         if(sb.length)h+='<button class="stog'+(open?' open':'')+'" data-tog="'+id+'" aria-expanded="'+(open?'true':'false')+'" aria-label="Подзадачи"><span>'+sd+'/'+sb.length+'</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
         h+='<span class="m">'+t[2]+' мин</span></div>';
         if(sb.length&&open)h+='<ul class="subs">'+sb.map(x=>(()=>{const ss=st.done[x.id]?"done":(st.skip[x.id]?"skip":"");return '<li><div class="lab sub '+ss+'" data-scb="'+x.id+'" data-parent="'+id+'" role="button" tabindex="0"><span class="cb">'+(ss==="done"?CHK:ss==="skip"?XMK:"")+'</span><span class="t">'+esc(x.text)+'</span></div></li>';})()).join("")+'</ul>';
+        if(stt==="skip"){
+          const r=st.reason[id]||{};
+          h+='<div class="why"><div class="whyc">'+REASONS.map(c=>'<button class="wchip'+(r.cat===c?' on':'')+'" data-rc="'+id+'|'+c+'">'+c+'</button>').join("")+'</div><label for="rw'+id+'" class="sr">Причина</label><input class="ein why-in" id="rw'+id+'" data-rw="'+id+'" value="'+esc(r.text||"")+'" placeholder="Причина: почему не получилось?"></div>';
+        }
         return h+'</li>';
       }).join("")+'</ul>';
       if(adding){
@@ -397,7 +459,118 @@ function render(){
   stats();
 }
 
+const COURSES=[{k:"ФМ",name:"Формула миллиона",total:32,base:5,plan:"2026-12-12"},{k:"ФК",name:"Формула контента",total:20,base:0,plan:"2026-12-12"}];
+const SPRINT_START="2026-11-01";
+const MON=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+function dfmt(d){return d.getDate()+" "+MON[d.getMonth()];}
+function pd(x){const [y,m,d]=x.split("-").map(Number);return new Date(y,m-1,d);}
+// урок -> самая ранняя дата дня, где отмечена задача с этим номером
+function lessonMap(k){
+  const re=new RegExp("(?:^|[^А-Яа-яA-Za-z])"+k+"\\s*(\\d+)");const m={};
+  ALL.forEach(d=>dayTasks(d).forEach(t=>{
+    if(!st.done[t[0]])return;const x=t[1].match(re);if(!x)return;
+    const n=+x[1];const when=d.d>TODAY?TODAY:d.d;
+    if(!m[n]||when<m[n])m[n]=when;
+  }));
+  return m;
+}
+function ringSvg(dn,sk,tot,i){
+  const r=18,c=2*Math.PI*r,a=tot?dn/tot:0,b=tot?sk/tot:0;
+  let h='<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><defs><linearGradient id="rg'+i+'"><stop offset="0" stop-color="#47B5F3"/><stop offset="1" stop-color="#1558D6"/></linearGradient></defs><circle cx="22" cy="22" r="'+r+'" fill="none" stroke="var(--line)" stroke-width="5"/>';
+  if(a)h+='<circle cx="22" cy="22" r="'+r+'" fill="none" stroke="url(#rg'+i+')" stroke-width="5" stroke-linecap="'+(a>=1?'butt':'round')+'" stroke-dasharray="'+(c*a)+' '+c+'" transform="rotate(-90 22 22)"/>';
+  if(b)h+='<circle cx="22" cy="22" r="'+r+'" fill="none" stroke="var(--c-skip)" stroke-width="5" stroke-dasharray="'+(c*b)+' '+c+'" stroke-dashoffset="'+(-c*a)+'" transform="rotate(-90 22 22)"/>';
+  return h+'<text x="22" y="26" text-anchor="middle" font-size="11" font-weight="700" fill="var(--ink)" font-family="Manrope,system-ui,sans-serif">'+(tot?dn+'/'+tot:'—')+'</text></svg>';
+}
+function renderRings(){
+  const W=WEEKS[week].days;let td=0,tt=0,ts=0;
+  document.getElementById("rings").innerHTML=W.map((d,i)=>{
+    const rest=isRest(d), L=rest?[]:dayTasks(d), dn=L.filter(t=>st.done[t[0]]).length, sk=L.filter(t=>st.skip[t[0]]&&!st.done[t[0]]).length;
+    td+=dn;tt+=L.length;ts+=sk;
+    return '<div class="'+(d.d===TODAY?'t':'')+'">'+ringSvg(dn,sk,L.length,i)+'<span class="dl">'+d.n.split(" ")[0]+'</span></div>';
+  }).join("");
+  const w=n=>n%10==1&&n%100!=11?"перенос":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?"переноса":"переносов";
+  document.getElementById("wkIns").textContent=td+" из "+tt+" задач недели"+(ts?" · "+ts+" "+w(ts):"");
+}
+function resData(){st.res=st.res||{};const r=st.res;if(!Array.isArray(r.subs))r.subs=[];if(r.reelsExtra==null)r.reelsExtra=0;if(r.sales==null)r.sales=0;return r;}
+function reelsAuto(){let n=0;ALL.forEach(d=>dayTasks(d).forEach(t=>{if(st.done[t[0]]&&/опублик/i.test(t[1])&&/reels|рилс/i.test(t[1]))n++;}));return n;}
+function spark(pts){
+  if(pts.length<2)return "";
+  const W=300,H=56,P=4,max=Math.max(...pts.map(p=>p.n),10),min=0;
+  const x=i=>P+i*(W-2*P)/(pts.length-1), y=v=>H-P-(v-min)/(max-min||1)*(H-2*P);
+  const line=pts.map((p,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+y(p.n).toFixed(1)).join(" ");
+  const area=line+" L"+x(pts.length-1).toFixed(1)+" "+(H-P)+" L"+x(0).toFixed(1)+" "+(H-P)+" Z";
+  const lx=x(pts.length-1),ly=y(pts[pts.length-1].n);
+  return '<svg class="spk" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#47B5F3" stop-opacity=".35"/><stop offset="1" stop-color="#47B5F3" stop-opacity="0"/></linearGradient></defs><path d="'+area+'" fill="url(#spg)"/><path d="'+line+'" fill="none" stroke="#1A6AE0" stroke-width="2" vector-effect="non-scaling-stroke"/><circle cx="'+lx+'" cy="'+ly+'" r="3.5" fill="#1A6AE0"/></svg>';
+}
+function renderResults(){
+  const r=resData(), reels=reelsAuto()+r.reelsExtra;
+  const pts=r.subs.slice().sort((a,b)=>a.d<b.d?-1:1);
+  const last=pts.length?pts[pts.length-1].n:0, prev=pts.length>1?pts[pts.length-2].n:null;
+  const delta=prev!=null?last-prev:null;
+  const goal=500;
+  let h='<div class="rsg">'
+   +'<div class="rsc"><span class="rsl">Reels опубликовано</span><div class="rsn"><button class="stp" data-rs="reels|-1" aria-label="Минус">−</button><b>'+reels+'</b><button class="stp" data-rs="reels|1" aria-label="Плюс">+</button></div></div>'
+   +'<div class="rsc"><span class="rsl">Продажи</span><div class="rsn"><button class="stp" data-rs="sales|-1" aria-label="Минус">−</button><b>'+r.sales+'<small>/10</small></b><button class="stp" data-rs="sales|1" aria-label="Плюс">+</button></div></div>'
+   +'</div>';
+  h+='<div class="rsub"><div class="cpr"><span class="cpn">Подписчики</span>'
+   +(ui.subEd
+     ?'<span class="cpe"><label for="subIn" class="sr">Подписчиков сейчас</label><input class="ein cpin" id="subIn" type="number" inputmode="numeric" min="0" value="'+(pts.length?last:'')+'" placeholder="0"><span class="cpc">/ '+goal+'</span><button class="lnk strong" id="subOk">Ок</button></span>'
+     :'<span class="cpe"><span class="cpc">'+last+' / '+goal+(delta!=null?' <span class="dlt'+(delta<0?' neg':'')+'">'+(delta>=0?'+':'')+delta+'</span>':'')+'</span><button class="pen" id="subEd" aria-label="Изменить число подписчиков">'+PEN+'</button></span>')
+   +'</div><div class="bar"><i style="width:'+Math.min(100,Math.round(last/goal*100))+'%"></i></div>'
+   +spark(pts)
+   +(pts.length?'<div class="cphint">Последняя запись: '+dfmt(pd(pts[pts.length-1].d))+'</div>':'')
+   +'</div>';
+  const gt=r.goalsText||"";
+  h+='<div class="rgoal"><div class="cpr"><span class="cpk">Цели</span>'+(ui.rgEd?'<button class="lnk strong" id="rgOk">Готово</button>':'<button class="pen" id="rgEd" aria-label="Изменить цели">'+PEN+'</button>')+'</div>'
+   +(ui.rgEd
+     ?'<label for="rgIn" class="sr">Цели</label><textarea id="rgIn" class="rgin" rows="4" placeholder="Например: 500 подписчиков к 31 декабря&#10;10 продаж мини-продукта">'+esc(gt)+'</textarea>'
+     :'<div class="rgt'+(gt?'':' empty')+'">'+(gt?esc(gt):'Нажми на карандаш и впиши свои цели — строкой или абзацами')+'</div>')
+   +'</div>';
+  document.getElementById("resbody").innerHTML=h;
+  document.getElementById("cres").open=!!st.resOpen;
+}
+function renderCourses(){
+  const today=pd(TODAY), start=pd(SPRINT_START);
+  const sinceStart=Math.max(1,Math.round((today-start)/864e5)+1);
+  const win=Math.min(7,sinceStart);
+  const wFrom=new Date(today);wFrom.setDate(wFrom.getDate()-win+1);
+  let h="";
+  COURSES.forEach(c=>{
+    const m=lessonMap(c.k);
+    const nums=new Set(Object.keys(m).map(Number).filter(n=>n>=1&&n<=c.total));
+    for(let n=1;n<=c.base;n++)nums.add(n);
+    const auto=nums.size, over=st.cpOver&&st.cpOver[c.k];
+    const done=over!=null?Math.min(c.total,over):auto, left=c.total-done;
+    let pace, paceTxt;
+    if(over!=null){pace=Math.max(0,done-c.base)/sinceStart;}
+    else{const inWin=Object.keys(m).filter(n=>+n>c.base&&+n<=c.total&&pd(m[n])>=wFrom).length;pace=inWin/win;}
+    const perWeekNow=Math.round(pace*7*10)/10;
+    let fc, fDate=null;
+    if(left<=0)fc="курс пройден";
+    else if(pace<=0)fc="темп пока не определён";
+    else{fDate=new Date(today);fDate.setDate(fDate.getDate()+Math.ceil(left/pace));fc="прогноз — к "+dfmt(fDate);}
+    const late=fDate&&fDate>pd(c.plan);
+    const need=left>0?Math.max(1,Math.round((pd(c.plan)-today)/864e5)):0;
+    const perWeek=need>0?Math.round(left/need*7*10)/10:0;
+    const nf=x=>String(x).replace(".",",");
+    h+='<div class="cp"><div class="cpr"><span class="cpn">'+c.name+'</span>'
+      +(ui.cpEdit===c.k
+        ?'<span class="cpe"><label for="cpi'+c.k+'" class="sr">Пройдено уроков</label><input class="ein cpin" id="cpi'+c.k+'" type="number" inputmode="numeric" min="0" max="'+c.total+'" value="'+done+'" placeholder="'+auto+'"><span class="cpc">/'+c.total+'</span><button class="lnk strong" data-cpok="'+c.k+'">Ок</button></span>'
+        :'<button class="cpc cpbtn" data-cped="'+c.k+'" aria-label="Изменить число уроков">'+done+'/'+c.total+(over!=null?' ✎':'')+'</button>')
+      +'</div><div class="bar"><i style="width:'+Math.round(done/c.total*100)+'%"></i></div>'
+      +'<div class="cpf'+(late?' late':'')+'">'+fc+(pace>0&&left>0?' · темп '+nf(perWeekNow)+' в неделю':'')+(left>0?' · по плану к '+dfmt(pd(c.plan))+' нужно ~'+nf(perWeek)+' в неделю':'')+'</div></div>';
+  });
+  h+='<div class="cphint">Урок засчитывается, когда отмечена задача с номером в названии: «ФМ 9», «ФК 3». Темп — за последние '+win+' '+(win==1?'день':win<5?'дня':'дней')+'. Число уроков можно поправить нажатием.</div>';
+  const md=pd(st.ms.date||"2026-11-13"), dl=Math.round((md-today)/864e5);
+  const left=dl>0?"осталось "+dl+" "+(dl%10==1&&dl%100!=11?"день":(dl%10>=2&&dl%10<=4&&(dl%100<10||dl%100>=20))?"дня":"дней"):dl===0?"сегодня":"прошло "+(-dl)+" дн.";
+  h+=ui.ms
+    ?'<div class="msr"><label for="msT" class="sr">Веха</label><input class="ein" id="msT" value="'+esc(st.ms.text)+'"><label for="msD" class="sr">Дата</label><input class="ein msd" id="msD" type="date" value="'+esc(st.ms.date)+'"><button class="lnk strong" id="msOk">Готово</button></div>'
+    :'<div class="msr"><span class="msl">'+esc(st.ms.text)+' по плану: '+dfmt(md)+' · '+left+'</span><button class="pen" id="msEd" aria-label="Изменить веху">'+PEN+'</button></div>';
+  document.getElementById("cpbody").innerHTML=h;
+  const dt=document.getElementById("cprog");dt.open=!!st.cpOpen;
+}
 function stats(){
+  renderCourses();
   const tasks=ALL.reduce((a,d)=>a+(isRest(d)?0:dayTasks(d).length),0);
   const done=ALL.reduce((a,d)=>a+(isRest(d)?0:doneCount(d)),0);
   document.getElementById("sDone").textContent=done+"/"+tasks;
@@ -415,7 +588,11 @@ function stats(){
     else if(d.d===TODAY)continue;
     else break;
   }
-  document.getElementById("sStreak").textContent=streak;
+  document.getElementById("sSkip").textContent=ALL.reduce((a,d)=>a+(isRest(d)?0:dayTasks(d).filter(t=>st.skip[t[0]]&&!st.done[t[0]]).length),0);
+  {const n=+document.getElementById("sSkip").textContent;document.getElementById("sSkipL").textContent=n%10==1&&n%100!=11?"перенос":(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?"переноса":"переносов";}
+  renderRings();
+  renderResults();
+  document.getElementById("cgen").open=!!st.genOpen;
   document.getElementById("bar").style.width=(tasks?Math.round(done/tasks*100):0)+"%";
   const b=document.getElementById("banner");
   const idx=ALL.findIndex(d=>d.d===TODAY);
@@ -472,6 +649,7 @@ document.getElementById("days").addEventListener("click",async e=>{
     else{st.done[id]=1;L.forEach(x=>st.done[x.id]=1);}
     save();render();return;
   }
+  if(ds.rc){const [id,c]=ds.rc.split("|");const r=st.reason[id]=st.reason[id]||{};r.cat=r.cat===c?undefined:c;save();render();return;}
   if(ds.tog){ui.open[ds.tog]=!ui.open[ds.tog];render();}
   if(ds.sadd){const nid=newId("s");(st.subs[ds.sadd]=st.subs[ds.sadd]||[]).push({id:nid,text:""});ui.open[ds.sadd]=true;save();render();const f=document.getElementById("si"+nid);if(f)f.focus();}
   if(ds.sdel){const [p,sid]=ds.sdel.split("|");st.subs[p]=subsOf(p).filter(x=>x.id!==sid);delete st.done[sid];save();render();}
@@ -521,6 +699,7 @@ document.getElementById("days").addEventListener("submit",e=>{
   ui.add=null;save();render();
 });
 document.getElementById("days").addEventListener("input",e=>{
+  if(e.target.dataset.rw){const id=e.target.dataset.rw;(st.reason[id]=st.reason[id]||{}).text=e.target.value.trim();save();return;}
   const ds=e.target.dataset;
   if(ds.tg){const [d,i]=ds.tg.split("|");ownTags(d)[+i].text=e.target.value.trim();save();return;}
   if(ds.st){const [p,sid]=ds.st.split("|");const x=subsOf(p).find(y=>y.id===sid);if(x){x.text=e.target.value.trim();save();}return;}
@@ -533,6 +712,27 @@ document.getElementById("days").addEventListener("input",e=>{
     if(ds.em){const v=parseInt(e.target.value,10);if(!v)return; if(own)own.min=v; else (st.edit[id]=st.edit[id]||{}).min=v;}
     save();
   }
+});
+function grow(t){t.style.height="auto";t.style.height=t.scrollHeight+"px";}
+document.getElementById("resbody").addEventListener("input",e=>{if(e.target.id==="rgIn"){grow(e.target);resData().goalsText=e.target.value;save();}});
+document.getElementById("resbody").addEventListener("keydown",e=>{if(e.target.id==="subIn"&&e.key==="Enter")document.getElementById("subOk").click();});
+document.getElementById("cres").addEventListener("toggle",e=>{st.resOpen=e.target.open?1:0;save();});
+document.getElementById("resbody").addEventListener("click",e=>{
+  const b=e.target.closest("[data-rs]");const r=resData();
+  if(b){const [k,v]=b.dataset.rs.split("|");if(k==="reels")r.reelsExtra=Math.max(-reelsAuto(),r.reelsExtra+ +v);else r.sales=Math.max(0,r.sales+ +v);save();renderResults();return;}
+  if(e.target.closest("#subEd")){ui.subEd=true;renderResults();const f=document.getElementById("subIn");f.focus();f.select();return;}
+  if(e.target.closest("#subOk")){const v=parseInt(document.getElementById("subIn").value,10);ui.subEd=false;
+    if(!isNaN(v)&&v>=0){r.subs=r.subs.filter(x=>x.d!==TODAY);r.subs.push({d:TODAY,n:v});save();}renderResults();return;}
+  if(e.target.closest("#rgEd")){ui.rgEd=true;renderResults();const f=document.getElementById("rgIn");f.focus();grow(f);return;}
+  if(e.target.closest("#rgOk")){r.goalsText=document.getElementById("rgIn").value.replace(/\s+$/,"");ui.rgEd=false;save();renderResults();return;}
+});
+document.getElementById("cgen").addEventListener("toggle",e=>{st.genOpen=e.target.open?1:0;save();});
+document.getElementById("cprog").addEventListener("toggle",e=>{st.cpOpen=e.target.open?1:0;save();});
+document.getElementById("cpbody").addEventListener("click",e=>{
+  const ed=e.target.closest("[data-cped]");if(ed){ui.cpEdit=ed.dataset.cped;renderCourses();const f=document.getElementById("cpi"+ui.cpEdit);if(f){f.focus();f.select();}return;}
+  const ok=e.target.closest("[data-cpok]");if(ok){const k=ok.dataset.cpok,v=document.getElementById("cpi"+k).value.trim();st.cpOver=st.cpOver||{};if(v==="")delete st.cpOver[k];else st.cpOver[k]=Math.max(0,parseInt(v,10)||0);ui.cpEdit=null;save();renderCourses();return;}
+  if(e.target.closest("#msEd")){ui.ms=true;renderCourses();document.getElementById("msT").focus();}
+  if(e.target.closest("#msOk")){const t=document.getElementById("msT").value.trim(),d=document.getElementById("msD").value;if(t)st.ms.text=t;if(d)st.ms.date=d;ui.ms=false;save();renderCourses();}
 });
 document.getElementById("goals").addEventListener("click",e=>{
   if(e.target.closest("#gedit")){ui.goals=true;renderGoals();document.getElementById("gin").focus();}
@@ -566,7 +766,7 @@ document.getElementById("bkCopy").onclick=async()=>{
 document.getElementById("bkLoad").onclick=()=>{
   try{const v=JSON.parse(document.getElementById("bkIn").value);
     if(!v||typeof v.done!=="object")throw 0;
-    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},order:v.order||{},subs:v.subs||{},skip:v.skip||{},min:v.min||{},focus:v.focus||{},reward:v.reward||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null};save();render();toast("Отметки восстановлены");}
+    st={done:v.done||{},rest:v.rest||{},custom:v.custom||{},edit:v.edit||{},order:v.order||{},subs:v.subs||{},skip:v.skip||{},reason:v.reason||{},cpOver:v.cpOver||{},res:v.res||{},ms:v.ms||{text:"Первый Reels",date:"2026-11-13"},min:v.min||{},focus:v.focus||{},reward:v.reward||{},tags:v.tags||{},hidden:v.hidden||{},goals:Array.isArray(v.goals)?v.goals:null,seedTag:SEED_TAG,mig1:1};save();render();toast("Отметки восстановлены");}
   catch(e){toast("Текст бэкапа не распознан. Скопируй его целиком.");}
 };
 document.getElementById("report").onclick=async()=>{
@@ -575,7 +775,8 @@ document.getElementById("report").onclick=async()=>{
   ALL.forEach(d=>{
     const L=dayTasks(d);if(!L.length&&!isRest(d))return;
     lines.push("\n"+d.n+(isRest(d)?" — отдых":""));
-    if(!isRest(d))L.forEach(t=>{lines.push((st.done[t[0]]?"[x] ":st.skip[t[0]]?"[✕] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":""));subsOf(t[0]).filter(x=>x.text).forEach(x=>lines.push("    "+(st.done[x.id]?"[x] ":st.skip[x.id]?"[✕] ":"[ ] ")+x.text));});
+    if(!isRest(d))L.forEach(t=>{lines.push((st.done[t[0]]?"[x] ":st.skip[t[0]]?"[✕] ":"[ ] ")+t[1]+" ("+t[2]+" мин)"+(t[4]?" — своя":""));
+      if(st.skip[t[0]]&&st.reason[t[0]]){const r=st.reason[t[0]];const w=[r.cat,r.text].filter(Boolean).join(": ");if(w)lines.push("    Причина: "+w);}subsOf(t[0]).filter(x=>x.text).forEach(x=>lines.push("    "+(st.done[x.id]?"[x] ":st.skip[x.id]?"[✕] ":"[ ] ")+x.text));});
   });
   const text=lines.join("\n");
   try{await navigator.clipboard.writeText(text);toast("Отчёт скопирован, вставь его в чат с Claude");}
